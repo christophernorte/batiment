@@ -1,0 +1,15 @@
+default:
+    pattern:  /
+    defaults: { _controller: batimentBundle:Presentation:index }
+batiment:
+    resource: "@batimentBundle/Controller/"
+    type:     annotation
+    prefix:   /    
+adminBatimentBundle:
+    resource: "@adminBatimentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

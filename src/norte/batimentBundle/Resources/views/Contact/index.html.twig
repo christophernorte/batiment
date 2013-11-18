@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAYsGw-v525t8TaFr2BlJ3WmodjN4D1Vpw&sensor=true"></script>
+<script src="{{ asset('bundles/batiment/js/dojo/dojo.js') }}" type="text/javascript" data-dojo-config="async: true"></script>
+<script type="text/javascript" src="{{ asset('bundles/batiment/js/mapBuilder.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="art-block" style="float: left;">
+    <div class="art-block-body">
+        <div class="art-blockheader">
+            <div class="l"></div>
+            <div class="r"></div>
+            <div class="t"><center>Coordonnée</center></div>
+        </div>
+        <div class="art-blockcontent">
+            <div class="art-postcontent">
+                <img src="{{ asset('bundles/batiment/images/02.png') }}" width="55px" height="55px" alt="an image" style="margin: 0 auto; display: block; border: 0" />
+                <table class="records_list">
+                    <tbody>
+                        {% for entity in entities %}
+                        <tr>
+                            <td class="tab-coord-libelle">{{ entity.titre }}</td>
+                            <td>{{ entity.information }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="art-block">
+    <div class="art-block-body" style="float: left;">
+        <div class="art-blockheader">
+            <div class="l"></div>
+            <div class="r"></div>
+            <div class="t"><center>Carte</center></div>
+        </div>
+        <div class="art-blockContent">
+            <div class="art-postcontent" style="width: 300px;height: 300px" id="map">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear: both"></div>
+{% endblock %}
+
+
+

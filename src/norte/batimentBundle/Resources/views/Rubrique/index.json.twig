@@ -1,0 +1,10 @@
+{% set currentIndex = 0 %}
+[
+{% for entitie in entities %}
+	{% set currentIndex = currentIndex + 1 %}
+       {{ entitie.toJson | json_encode | raw }}
+	{% if currentIndex < sizeList %}
+		,
+	{% endif %}
+{% endfor %}
+]

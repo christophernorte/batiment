@@ -1,0 +1,10 @@
+{% set currentIndex = 0 %}
+[
+{%- for photo in defautPhotos -%}
+	{% set currentIndex = currentIndex + 1 %}
+       {{- photo.toJson | json_encode | raw -}}
+	{%- if currentIndex < sizeList -%}
+		,
+	{%- endif -%}
+{% endfor %}
+]

@@ -1,0 +1,13 @@
+{% set currentIndex = 0 %}
+[
+{% for entity in entities %}
+	{% set currentIndex = currentIndex + 1 %}
+
+	{{- entity.toJson | json_encode | raw -}}
+
+	{%- if currentIndex < sizeList -%}
+		,
+	{%- endif -%}
+
+{% endfor %}
+]

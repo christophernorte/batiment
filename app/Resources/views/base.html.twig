@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>Francois norte</title>
+
+        <link rel="stylesheet" href="{{ asset('bundles/batiment/css/style.css') }}" type="text/css" media="all" />
+        {% block stylesheets %}{% endblock %}
+        {% block javascript %}{% endblock %}
+        <!--[if IE 6]><link rel="stylesheet" href="style.ie6.css" type="text/css" media="screen" /><![endif]-->
+        <!--[if IE 7]><link rel="stylesheet" href="style.ie7.css" type="text/css" media="screen" /><![endif]-->
+    </head>
+    <body class="tundra">
+        <div id="art-main">
+        <div class="art-sheet">
+            <div class="art-sheet-tl"></div>
+            <div class="art-sheet-tr"></div>
+            <div class="art-sheet-bl"></div>
+            <div class="art-sheet-br"></div>
+            <div class="art-sheet-tc"></div>
+            <div class="art-sheet-bc"></div>
+            <div class="art-sheet-cl"></div>
+            <div class="art-sheet-cr"></div>
+            <div class="art-sheet-cc"></div>
+            <div class="art-sheet-body">
+                <div class="art-header">
+                    <div class="art-header-png"></div>
+                    <div class="art-header-jpeg"></div>
+                    <div class="art-logo">
+                        <h1 id="name-text" class="art-logo-name"><a href="#">Francois Norte</a></h1>
+                            <div id="slogan-text" class="art-logo-text">Restauration du patrimoine</div>
+                        </div>
+                    </div>
+                    <div class="art-nav">
+                        <div class="l"></div>
+                        <div class="r"></div>
+                        <ul class="art-menu">
+                            <li>
+                                <a href="{{ path('presentation') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Accueil</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ path('contact') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Contact</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ path('galerie') }}"><span class="l"></span><span class="r"></span><span class="t">Galerie Photo</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="art-content-layout">
+                        <div id="art-content">
+                            {% block body %}{% endblock %}
+                        </div>
+                    </div>
+                    <div class="cleared"></div><div class="art-footer">
+                        <div class="art-footer-inner">
+                            <div class="art-footer-text">
+                                <p><a href="javascript:goNav('contact.html')">Me Contacter</a> | <a href="#">Terms of Use</a> | <a href="#">Trademarks</a>
+                                    | <a href="#">Privacy Statement</a><br />
+                                    Copyright &copy; 2010 . All Rights Reserved.</p>
+                            </div>
+                        </div>
+                        <div class="art-footer-background"></div>
+                    </div>
+                    <div class="cleared"></div>
+                </div>
+            </div>
+            <div class="cleared"></div>
+            <p class="art-page-footer"><a href="http://www.artisteer.com/">Web Template</a> created with Artisteer.</p>
+        </div>
+    </body>
+</html>
