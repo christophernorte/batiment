@@ -10,15 +10,10 @@ security:
                 francois:  { password: catheline, roles: [ 'ROLE_USER' ] }
                 christopher:  { password: catheline, roles: [ 'ROLE_ADMIN' ] }
     firewalls:
-        main:
-            form_login:
-                failure_path: /login_failure
-        login_access:
-            pattern:  ^/login$
-            anonymous:  ~
         secured_area:
             pattern:  ^/
+            anonymous: ~
             form_login:  ~
-    access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_ADMIN}
+#    access_control:
+#        - { path: ^/secured/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/secured/, roles: ROLE_ADMIN}
