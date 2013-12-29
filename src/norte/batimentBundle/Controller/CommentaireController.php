@@ -45,22 +45,27 @@ class CommentaireController extends Controller {
 	 * @Method("POST")
 	 * @Template("batimentBundle:Commentaire:new.json.twig")
 	 */
-	public function createAction() {
-		$entity = new Commentaire();
+	public function createAction() 
+	{
+		
 		$request = $this->getRequest();
-		$form = $this->createForm(new CommentaireType(), $entity,array('csrf_protection' => false));
-		$form->bindRequest($request);
 		
-		$entity->setText($request->get('text'));
-		$entity->setIsaffiche(false);
+		$commentaire = new Commentaire();
+		$commentaire->setText($request->get('text'));
+		$commentaire->setIsaffiche(false);
+		
 		$photo = $this->getDoctrine()->getRepository('batimentBundle:Photo')->find($request->get('idphoto'));
+		$commentaire->setIdphoto($photo);
 		
-		$entity->setIdphoto($photo);
+		$form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
+		$form->handleRequest($request);
+//		echo $commentaire->getId();
 		
-		if ($form->isValid()) {
-			$em = $this->getDoctrine()->getEntityManager();
-			$entity->setDate();
-			$em->persist($entity);
+		if ($form->isValid()) 
+		{
+			$em = $this->getDoctrine()->getManager();
+			$commentaire->setDate();
+			$em->persist($commentaire);
 			$em->flush();
 		}
 		

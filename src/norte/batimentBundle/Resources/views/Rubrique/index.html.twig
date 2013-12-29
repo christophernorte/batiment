@@ -29,7 +29,7 @@
 		function(dom,domReady,PictureShowerWidget,xhr) {
 			
 			var listRubriqueRequest = xhr.get({
-				url: "/batiment/web/app_dev.php/galerie/rubriques",
+				url: "/app_dev.php/galerie/rubriques",
 				handleAs: "json"
 			});
 		
@@ -37,13 +37,13 @@
 			
 				//Définit les photos par defaut
 				xhr.get({
-					url: "/batiment/web/app_dev.php/photo/defaut-photo",
+					url: "/app_dev.php/photo/defaut-photo",
 					handleAs: "json",
 					load:function(listImageDefaut){
 						
 						// Recherche des commentaire associé à la première photo.
 						xhr.get({
-								url: "/batiment/web/app_dev.php/commentaire/"+listImageDefaut[0].id,
+								url: "/app_dev.php/commentaire/"+listImageDefaut[0].id,
 								handleAs: "json",
 								load:function(listCommentaire){
 

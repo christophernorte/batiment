@@ -165,7 +165,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				// Submit du formulaire
 				xhr.post(
 				{
-					url: "/batiment/web/app_dev.php/commentaire/create/",
+					url: "/app_dev.php/commentaire/create/",
 					form : this.commentaireForm,
 					handleAs : "json",
 					load: lang.hitch(this,function(formStatus){
@@ -314,7 +314,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				},liNode);
 
 				var event = {
-					url: "/batiment/web/app_dev.php/photo/rubrique-photo/"+rubrique.id,
+					url: "/app_dev.php/photo/rubrique-photo/"+rubrique.id,
 					handleAs: "json",
 					load: lang.hitch(this,function imagesRubriqueLoaded(listImage){
 						this.setListImage(listImage);
@@ -341,7 +341,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			_displayCommentaire:function(idImage)
 			{
 				xhr.get({
-						url: "/batiment/web/app_dev.php/commentaire/"+idImage,
+						url: "/app_dev.php/commentaire/"+idImage,
 						handleAs: "json",
 						load:lang.hitch(this,function(listCommentaire){
 							this.listCommentaire = listCommentaire;

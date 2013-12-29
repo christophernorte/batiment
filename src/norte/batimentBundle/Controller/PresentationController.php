@@ -26,7 +26,7 @@ class PresentationController extends Controller
     {
 //        echo $this->generateUrl('_demo');
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('batimentBundle:Presentation')->find(0);
         return array('entity' => $entity);

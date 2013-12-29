@@ -3,23 +3,24 @@
 namespace norte\batimentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CommentaireType extends AbstractType {
 
-	public function buildForm(FormBuilder $builder, array $options) {
-		$builder->add('text','text')
-			->add('idphoto','integer');
+	public function buildForm(FormBuilderInterface $builder, array $options) {
+		$builder->add('text', 'text')
+			->add('idphoto', 'integer');
+	}
+
+	public function setDefaultOptions(OptionsResolverInterface $resolver) {
+		$resolver->setDefaults(array(
+		    'data_class' => 'norte\batimentBundle\Entity\Commentaire',
+		));
 	}
 
 	public function getName() {
-		return 'norte_batimentbundle_commentairetype';
-	}
-
-	public function getDefaultOptions(array $options) {
-		return array(
-		    'data_class' => 'norte\batimentBundle\Entity\Commentaire'
-		);
+		return 'commentaire';
 	}
 
 }
