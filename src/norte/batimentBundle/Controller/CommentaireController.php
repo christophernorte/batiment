@@ -45,12 +45,13 @@ class CommentaireController extends Controller {
 	 * @Method("POST")
 	 * @Template("batimentBundle:Commentaire:new.json.twig")
 	 */
-	public function createAction() 
+	public function createAction()
 	{
 		
 		$request = $this->getRequest();
 		
 		$commentaire = new Commentaire();
+		
 		$commentaire->setText($request->get('text'));
 		$commentaire->setIsaffiche(false);
 		
@@ -59,12 +60,13 @@ class CommentaireController extends Controller {
 		
 		$form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
 		$form->handleRequest($request);
-//		echo $commentaire->getId();
 		
 		if ($form->isValid()) 
 		{
+			
 			$em = $this->getDoctrine()->getManager();
 			$commentaire->setDate();
+			$commentaire->setText($request->get('text'));
 			$em->persist($commentaire);
 			$em->flush();
 		}

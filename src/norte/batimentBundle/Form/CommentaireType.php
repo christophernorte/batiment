@@ -10,17 +10,19 @@ class CommentaireType extends AbstractType {
 
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add('text', 'text')
-			->add('idphoto', 'integer');
+			->add('idphoto', new PhotoType());
+			
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
 		    'data_class' => 'norte\batimentBundle\Entity\Commentaire',
+		    'cascade_validation' => false
 		));
 	}
 
 	public function getName() {
-		return 'commentaire';
+		return 'norte_batimentbundle_commentaire';
 	}
 
 }

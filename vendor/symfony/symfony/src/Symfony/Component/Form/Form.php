@@ -642,7 +642,7 @@ class Form implements \IteratorAggregate, FormInterface
                 $viewData = $submittedData;
             }
         }
-
+	
         $this->submitted = true;
         $this->modelData = $modelData;
         $this->normData = $normData;
