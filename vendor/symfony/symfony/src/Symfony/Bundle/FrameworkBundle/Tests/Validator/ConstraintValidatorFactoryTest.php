@@ -43,7 +43,7 @@ class ConstraintValidatorFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $service = 'validator_constraint_service';
         $alias = 'validator_constraint_alias';
-        $validator = $this->getMockForAbstractClass('Symfony\\Component\\Validator\\ConstraintValidator');
+        $validator = new \stdClass();
 
         // mock ContainerBuilder b/c it implements TaggedContainerInterface
         $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');

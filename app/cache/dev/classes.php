@@ -6,36 +6,52 @@ interface EventSubscriberInterface
 public static function getSubscribedEvents();
 }
 }
-namespace Symfony\Bundle\FrameworkBundle\EventListener
+namespace Symfony\Component\HttpKernel\EventListener
 {
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-class SessionListener implements EventSubscriberInterface
+abstract class SessionListener implements EventSubscriberInterface
 {
-private $container;
-public function __construct(ContainerInterface $container)
-{
-$this->container = $container;
-}
 public function onKernelRequest(GetResponseEvent $event)
 {
 if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
 return;
 }
 $request = $event->getRequest();
-if (!$this->container->has('session') || $request->hasSession()) {
+$session = $this->getSession();
+if (null === $session || $request->hasSession()) {
 return;
 }
-$request->setSession($this->container->get('session'));
+$request->setSession($session);
 }
 public static function getSubscribedEvents()
 {
 return array(
 KernelEvents::REQUEST => array('onKernelRequest', 128),
 );
+}
+abstract protected function getSession();
+}
+}
+namespace Symfony\Bundle\FrameworkBundle\EventListener
+{
+use Symfony\Component\HttpKernel\EventListener\SessionListener as BaseSessionListener;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+class SessionListener extends BaseSessionListener
+{
+private $container;
+public function __construct(ContainerInterface $container)
+{
+$this->container = $container;
+}
+protected function getSession()
+{
+if (!$this->container->has('session')) {
+return null;
+}
+return $this->container->get('session');
 }
 }
 }
@@ -597,8 +613,8 @@ return $user;
 }
 public function getRequest()
 {
-if ($this->container->has('request') && $request = $this->container->get('request')) {
-return $request;
+if ($this->container->has('request_stack')) {
+return $this->container->get('request_stack')->getCurrentRequest();
 }
 }
 public function getSession()
@@ -626,6 +642,7 @@ public function set($name, $value);
 public function get($name);
 public function getPath();
 public function getLogicalName();
+public function __toString();
 }
 }
 namespace Symfony\Component\Templating
@@ -709,11 +726,10 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class TemplateNameParser implements TemplateNameParserInterface
 {
 protected $kernel;
-protected $cache;
+protected $cache = array();
 public function __construct(KernelInterface $kernel)
 {
 $this->kernel = $kernel;
-$this->cache = array();
 }
 public function parse($name)
 {
@@ -770,7 +786,7 @@ return $template->getLogicalName();
 public function locate($template, $currentPath = null, $first = true)
 {
 if (!$template instanceof TemplateReferenceInterface) {
-throw new \InvalidArgumentException("The template must be an instance of TemplateReferenceInterface.");
+throw new \InvalidArgumentException('The template must be an instance of TemplateReferenceInterface.');
 }
 $key = $this->getCacheKey($template);
 if (isset($this->cache[$key])) {
@@ -1122,6 +1138,16 @@ interface RouterInterface extends UrlMatcherInterface, UrlGeneratorInterface
 public function getRouteCollection();
 }
 }
+namespace Symfony\Component\Routing\Matcher
+{
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+interface RequestMatcherInterface
+{
+public function matchRequest(Request $request);
+}
+}
 namespace Symfony\Component\Routing
 {
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -1129,8 +1155,12 @@ use Symfony\Component\Config\ConfigCache;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\ConfigurableRequirementsInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Generator\Dumper\GeneratorDumperInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
-class Router implements RouterInterface
+use Symfony\Component\Routing\Matcher\Dumper\MatcherDumperInterface;
+use Symfony\Component\HttpFoundation\Request;
+class Router implements RouterInterface, RequestMatcherInterface
 {
 protected $matcher;
 protected $generator;
@@ -1145,7 +1175,7 @@ public function __construct(LoaderInterface $loader, $resource, array $options =
 $this->loader = $loader;
 $this->resource = $resource;
 $this->logger = $logger;
-$this->context = null === $context ? new RequestContext() : $context;
+$this->context = $context ?: new RequestContext();
 $this->setOptions($options);
 }
 public function setOptions(array $options)
@@ -1207,6 +1237,14 @@ public function match($pathinfo)
 {
 return $this->getMatcher()->match($pathinfo);
 }
+public function matchRequest(Request $request)
+{
+$matcher = $this->getMatcher();
+if (!$matcher instanceof RequestMatcherInterface) {
+return $matcher->match($request->getPathInfo());
+}
+return $matcher->matchRequest($request);
+}
 public function getMatcher()
 {
 if (null !== $this->matcher) {
@@ -1218,7 +1256,7 @@ return $this->matcher = new $this->options['matcher_class']($this->getRouteColle
 $class = $this->options['matcher_cache_class'];
 $cache = new ConfigCache($this->options['cache_dir'].'/'.$class.'.php', $this->options['debug']);
 if (!$cache->isFresh()) {
-$dumper = new $this->options['matcher_dumper_class']($this->getRouteCollection());
+$dumper = $this->getMatcherDumperInstance();
 $options = array('class'=> $class,'base_class'=> $this->options['matcher_base_class'],
 );
 $cache->write($dumper->dump($options), $this->getRouteCollection()->getResources());
@@ -1237,7 +1275,7 @@ $this->generator = new $this->options['generator_class']($this->getRouteCollecti
 $class = $this->options['generator_cache_class'];
 $cache = new ConfigCache($this->options['cache_dir'].'/'.$class.'.php', $this->options['debug']);
 if (!$cache->isFresh()) {
-$dumper = new $this->options['generator_dumper_class']($this->getRouteCollection());
+$dumper = $this->getGeneratorDumperInstance();
 $options = array('class'=> $class,'base_class'=> $this->options['generator_base_class'],
 );
 $cache->write($dumper->dump($options), $this->getRouteCollection()->getResources());
@@ -1249,6 +1287,14 @@ if ($this->generator instanceof ConfigurableRequirementsInterface) {
 $this->generator->setStrictRequirements($this->options['strict_requirements']);
 }
 return $this->generator;
+}
+protected function getGeneratorDumperInstance()
+{
+return new $this->options['generator_dumper_class']($this->getRouteCollection());
+}
+protected function getMatcherDumperInstance()
+{
+return new $this->options['matcher_dumper_class']($this->getRouteCollection());
 }
 }
 }
@@ -1266,7 +1312,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
-class UrlMatcher implements UrlMatcherInterface
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
 {
 const REQUIREMENT_MATCH = 0;
 const REQUIREMENT_MISMATCH = 1;
@@ -1274,6 +1322,8 @@ const ROUTE_MATCH = 2;
 protected $context;
 protected $allow = array();
 protected $routes;
+protected $request;
+protected $expressionLanguage;
 public function __construct(RouteCollection $routes, RequestContext $context)
 {
 $this->routes = $routes;
@@ -1296,6 +1346,13 @@ return $ret;
 throw 0 < count($this->allow)
 ? new MethodNotAllowedException(array_unique(array_map('strtoupper', $this->allow)))
 : new ResourceNotFoundException();
+}
+public function matchRequest(Request $request)
+{
+$this->request = $request;
+$ret = $this->match($request->getPathInfo());
+$this->request = null;
+return $ret;
 }
 protected function matchCollection($pathinfo, RouteCollection $routes)
 {
@@ -1337,9 +1394,14 @@ return $this->mergeDefaults($attributes, $route->getDefaults());
 }
 protected function handleRouteRequirements($pathinfo, $name, Route $route)
 {
+if ($route->getCondition() && !$this->getExpressionLanguage()->evaluate($route->getCondition(), array('context'=> $this->context,'request'=> $this->request))) {
+return array(self::REQUIREMENT_MISMATCH, null);
+}
 $scheme = $route->getRequirement('_scheme');
-$status = $scheme && $scheme !== $this->context->getScheme() ? self::REQUIREMENT_MISMATCH : self::REQUIREMENT_MATCH;
-return array($status, null);
+if ($scheme && $scheme !== $this->context->getScheme()) {
+return array(self::REQUIREMENT_MISMATCH, null);
+}
+return array(self::REQUIREMENT_MATCH, null);
 }
 protected function mergeDefaults($params, $defaults)
 {
@@ -1349,6 +1411,16 @@ $defaults[$key] = $value;
 }
 }
 return $defaults;
+}
+protected function getExpressionLanguage()
+{
+if (null === $this->expressionLanguage) {
+if (!class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
+throw new \RuntimeException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
+}
+$this->expressionLanguage = new ExpressionLanguage();
+}
+return $this->expressionLanguage;
 }
 }
 }
@@ -1377,6 +1449,9 @@ return $parameters;
 }
 protected function handleRouteRequirements($pathinfo, $name, Route $route)
 {
+if ($route->getCondition() && !$this->getExpressionLanguage()->evaluate($route->getCondition(), array('context'=> $this->context,'request'=> $this->request))) {
+return array(self::REQUIREMENT_MISMATCH, null);
+}
 $scheme = $route->getRequirement('_scheme');
 if ($scheme && $this->context->getScheme() !== $scheme) {
 return array(self::ROUTE_MATCH, $this->redirect($pathinfo, $name, $scheme));
@@ -1420,7 +1495,7 @@ public function __construct(ContainerInterface $container, $resource, array $opt
 {
 $this->container = $container;
 $this->resource = $resource;
-$this->context = null === $context ? new RequestContext() : $context;
+$this->context = $context ?: new RequestContext();
 $this->setOptions($options);
 }
 public function getRouteCollection()
@@ -1662,7 +1737,7 @@ $this->removeListener($eventName, array($subscriber, is_string($params) ? $param
 protected function doDispatch($listeners, $eventName, Event $event)
 {
 foreach ($listeners as $listener) {
-call_user_func($listener, $event);
+call_user_func($listener, $event, $eventName, $this);
 if ($event->isPropagationStopped()) {
 break;
 }
@@ -1787,7 +1862,6 @@ $this->listeners[$eventName][$key] = $listener;
 namespace Symfony\Component\HttpKernel\EventListener
 {
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ResponseListener implements EventSubscriberInterface
@@ -1799,7 +1873,7 @@ $this->charset = $charset;
 }
 public function onKernelResponse(FilterResponseEvent $event)
 {
-if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+if (!$event->isMasterRequest()) {
 return;
 }
 $response = $event->getResponse();
@@ -1820,9 +1894,11 @@ namespace Symfony\Component\HttpKernel\EventListener
 {
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -1837,7 +1913,8 @@ private $matcher;
 private $context;
 private $logger;
 private $request;
-public function __construct($matcher, RequestContext $context = null, LoggerInterface $logger = null)
+private $requestStack;
+public function __construct($matcher, RequestContext $context = null, LoggerInterface $logger = null, RequestStack $requestStack = null)
 {
 if (!$matcher instanceof UrlMatcherInterface && !$matcher instanceof RequestMatcherInterface) {
 throw new \InvalidArgumentException('Matcher must either implement UrlMatcherInterface or RequestMatcherInterface.');
@@ -1847,6 +1924,7 @@ throw new \InvalidArgumentException('You must either pass a RequestContext or th
 }
 $this->matcher = $matcher;
 $this->context = $context ?: $matcher->getContext();
+$this->requestStack = $requestStack;
 $this->logger = $logger;
 }
 public function setRequest(Request $request = null)
@@ -1856,10 +1934,18 @@ $this->context->fromRequest($request);
 }
 $this->request = $request;
 }
+public function onKernelFinishRequest(FinishRequestEvent $event)
+{
+if (null === $this->requestStack) {
+return; }
+$this->setRequest($this->requestStack->getParentRequest());
+}
 public function onKernelRequest(GetResponseEvent $event)
 {
 $request = $event->getRequest();
+if (null !== $this->requestStack) {
 $this->setRequest($request);
+}
 if ($request->attributes->has('_controller')) {
 return;
 }
@@ -1878,6 +1964,9 @@ unset($parameters['_controller']);
 $request->attributes->set('_route_params', $parameters);
 } catch (ResourceNotFoundException $e) {
 $message = sprintf('No route found for "%s %s"', $request->getMethod(), $request->getPathInfo());
+if ($referer = $request->headers->get('referer')) {
+$message .= sprintf(' (from "%s")', $referer);
+}
 throw new NotFoundHttpException($message, $e);
 } catch (MethodNotAllowedException $e) {
 $message = sprintf('No route found for "%s %s": Method Not Allowed (Allow: %s)', $request->getMethod(), $request->getPathInfo(), implode(', ', $e->getAllowedMethods()));
@@ -1896,6 +1985,7 @@ public static function getSubscribedEvents()
 {
 return array(
 KernelEvents::REQUEST => array(array('onKernelRequest', 32)),
+KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
 );
 }
 }
@@ -2020,6 +2110,10 @@ return $this->request;
 public function getRequestType()
 {
 return $this->requestType;
+}
+public function isMasterRequest()
+{
+return HttpKernelInterface::MASTER_REQUEST === $this->requestType;
 }
 }
 }
@@ -2172,6 +2266,7 @@ const VIEW ='kernel.view';
 const CONTROLLER ='kernel.controller';
 const RESPONSE ='kernel.response';
 const TERMINATE ='kernel.terminate';
+const FINISH_REQUEST ='kernel.finish_request';
 }
 }
 namespace Symfony\Component\HttpKernel\Config
@@ -2306,9 +2401,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AccessMap implements AccessMapInterface
 {
 private $map = array();
-public function add(RequestMatcherInterface $requestMatcher, array $roles = array(), $channel = null)
+public function add(RequestMatcherInterface $requestMatcher, array $attributes = array(), $channel = null)
 {
-$this->map[] = array($requestMatcher, $roles, $channel);
+$this->map[] = array($requestMatcher, $attributes, $channel);
 }
 public function getPatterns(Request $request)
 {
@@ -2323,27 +2418,30 @@ return array(null, null);
 }
 namespace Symfony\Component\Security\Http
 {
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class Firewall implements EventSubscriberInterface
 {
 private $map;
 private $dispatcher;
+private $exceptionListeners;
 public function __construct(FirewallMapInterface $map, EventDispatcherInterface $dispatcher)
 {
 $this->map = $map;
 $this->dispatcher = $dispatcher;
+$this->exceptionListeners = new \SplObjectStorage();
 }
 public function onKernelRequest(GetResponseEvent $event)
 {
-if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+if (!$event->isMasterRequest()) {
 return;
 }
 list($listeners, $exception) = $this->map->getListeners($event->getRequest());
 if (null !== $exception) {
+$this->exceptionListeners[$event->getRequest()] = $exception;
 $exception->register($this->dispatcher);
 }
 foreach ($listeners as $listener) {
@@ -2353,9 +2451,20 @@ break;
 }
 }
 }
+public function onKernelFinishRequest(FinishRequestEvent $event)
+{
+$request = $event->getRequest();
+if (isset($this->exceptionListeners[$request])) {
+$this->exceptionListeners[$request]->unregister($this->dispatcher);
+unset($this->exceptionListeners[$request]);
+}
+}
 public static function getSubscribedEvents()
 {
-return array(KernelEvents::REQUEST => array('onKernelRequest', 8));
+return array(
+KernelEvents::REQUEST => array('onKernelRequest', 8),
+KernelEvents::FINISH_REQUEST =>'onKernelFinishRequest',
+);
 }
 }
 }
@@ -2526,8 +2635,12 @@ public function __construct(array $voters, $strategy ='affirmative', $allowIfAll
 if (!$voters) {
 throw new \InvalidArgumentException('You must at least add one voter.');
 }
+$strategyMethod ='decide'.ucfirst($strategy);
+if (!is_callable(array($this, $strategyMethod))) {
+throw new \InvalidArgumentException(sprintf('The strategy "%s" is not supported.', $strategy));
+}
 $this->voters = $voters;
-$this->strategy ='decide'.ucfirst($strategy);
+$this->strategy = $strategyMethod;
 $this->allowIfAllAbstainDecisions = (Boolean) $allowIfAllAbstainDecisions;
 $this->allowIfEqualGrantedDeniedDecisions = (Boolean) $allowIfEqualGrantedDeniedDecisions;
 }
@@ -5803,23 +5916,23 @@ KernelEvents::CONTROLLER =>'onKernelController',
 }
 namespace Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter
 {
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 interface ParamConverterInterface
 {
-function apply(Request $request, ConfigurationInterface $configuration);
-function supports(ConfigurationInterface $configuration);
+public function apply(Request $request, ParamConverter $configuration);
+public function supports(ParamConverter $configuration);
 }
 }
 namespace Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter
 {
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
 class DateTimeParamConverter implements ParamConverterInterface
 {
-public function apply(Request $request, ConfigurationInterface $configuration)
+public function apply(Request $request, ParamConverter $configuration)
 {
 $param = $configuration->getName();
 if (!$request->attributes->has($param)) {
@@ -5827,6 +5940,9 @@ return false;
 }
 $options = $configuration->getOptions();
 $value = $request->attributes->get($param);
+if (!$value && $configuration->isOptional()) {
+return false;
+}
 $date = isset($options['format'])
 ? DateTime::createFromFormat($options['format'], $value)
 : new DateTime($value);
@@ -5836,7 +5952,7 @@ throw new NotFoundHttpException('Invalid date given.');
 $request->attributes->set($param, $date);
 return true;
 }
-public function supports(ConfigurationInterface $configuration)
+public function supports(ParamConverter $configuration)
 {
 if (null === $configuration->getClass()) {
 return false;
@@ -5847,11 +5963,11 @@ return"DateTime"=== $configuration->getClass();
 }
 namespace Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter
 {
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NoResultException;
 class DoctrineParamConverter implements ParamConverterInterface
 {
 protected $registry;
@@ -5859,7 +5975,7 @@ public function __construct(ManagerRegistry $registry = null)
 {
 $this->registry = $registry;
 }
-public function apply(Request $request, ConfigurationInterface $configuration)
+public function apply(Request $request, ParamConverter $configuration)
 {
 $name = $configuration->getName();
 $class = $configuration->getClass();
@@ -5896,7 +6012,11 @@ $method = $options['repository_method'];
 } else {
 $method ='find';
 }
+try {
 return $this->getManager($options['entity_manager'], $class)->getRepository($class)->$method($id);
+} catch (NoResultException $e) {
+return null;
+}
 }
 protected function getIdentifier(Request $request, $options, $name)
 {
@@ -5950,13 +6070,14 @@ $method = $options['repository_method'];
 } else {
 $method ='findOneBy';
 }
+try {
 return $em->getRepository($class)->$method($criteria);
+} catch (NoResultException $e) {
+return null;
 }
-public function supports(ConfigurationInterface $configuration)
+}
+public function supports(ParamConverter $configuration)
 {
-if (!$configuration instanceof ParamConverter) {
-return false;
-}
 if (null === $this->registry || !count($this->registry->getManagers())) {
 return false;
 }
@@ -5970,7 +6091,7 @@ return false;
 }
 return ! $em->getMetadataFactory()->isTransient($configuration->getClass());
 }
-protected function getOptions(ConfigurationInterface $configuration)
+protected function getOptions(ParamConverter $configuration)
 {
 return array_replace(array('entity_manager'=> null,'exclude'=> array(),'mapping'=> array(),'strip_null'=> false,
 ), $configuration->getOptions());
@@ -6137,14 +6258,56 @@ KernelEvents::VIEW =>'onKernelView',
 }
 namespace Sensio\Bundle\FrameworkExtraBundle\EventListener
 {
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-class CacheListener implements EventSubscriberInterface
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+class HttpCacheListener implements EventSubscriberInterface
 {
+private $lastModifiedDates;
+private $etags;
+private $expressionLanguage;
+public function __construct()
+{
+$this->lastModifiedDates = new \SplObjectStorage();
+$this->etags = new \SplObjectStorage();
+}
+public function onKernelController(FilterControllerEvent $event)
+{
+$request = $event->getRequest();
+if (!$configuration = $request->attributes->get('_cache')) {
+return;
+}
+$response = new Response();
+$lastModifiedDate ='';
+if ($configuration->getLastModified()) {
+$lastModifiedDate = $this->getExpressionLanguage()->evaluate($configuration->getLastModified(), $request->attributes->all());
+$response->setLastModified($lastModifiedDate);
+}
+$etag ='';
+if ($configuration->getETag()) {
+$etag = hash('sha256', $this->getExpressionLanguage()->evaluate($configuration->getETag(), $request->attributes->all()));
+$response->setETag($etag);
+}
+if ($response->isNotModified($request)) {
+$event->setController(function () use ($response) {
+return $response;
+});
+} else {
+if ($etag) {
+$this->etags[$request] = $etag;
+}
+if ($lastModifiedDate) {
+$this->lastModifiedDates[$request] = $lastModifiedDate;
+}
+}
+}
 public function onKernelResponse(FilterResponseEvent $event)
 {
-if (!$configuration = $event->getRequest()->attributes->get('_cache')) {
+$request = $event->getRequest();
+if (!$configuration = $request->attributes->get('_cache')) {
 return;
 }
 $response = $event->getResponse();
@@ -6167,13 +6330,88 @@ $response->setVary($configuration->getVary());
 if ($configuration->isPublic()) {
 $response->setPublic();
 }
+if (isset($this->lastModifiedDates[$request])) {
+$response->setLastModified($this->lastModifiedDates[$request]);
+unset($this->lastModifiedDates[$request]);
+}
+if (isset($this->etags[$request])) {
+$response->setETag($this->etags[$request]);
+unset($this->etags[$request]);
+}
 $event->setResponse($response);
 }
 public static function getSubscribedEvents()
 {
 return array(
+KernelEvents::CONTROLLER =>'onKernelController',
 KernelEvents::RESPONSE =>'onKernelResponse',
 );
+}
+private function getExpressionLanguage()
+{
+if (null === $this->expressionLanguage) {
+if (!class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
+throw new \RuntimeException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
+}
+$this->expressionLanguage = new ExpressionLanguage();
+}
+return $this->expressionLanguage;
+}
+}
+}
+namespace Sensio\Bundle\FrameworkExtraBundle\EventListener
+{
+use Sensio\Bundle\FrameworkExtraBundle\Security\ExpressionLanguage;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
+class SecurityListener implements EventSubscriberInterface
+{
+private $securityContext;
+private $language;
+private $trustResolver;
+private $roleHierarchy;
+public function __construct(SecurityContextInterface $securityContext = null, ExpressionLanguage $language = null, AuthenticationTrustResolverInterface $trustResolver = null, RoleHierarchyInterface $roleHierarchy = null)
+{
+$this->securityContext = $securityContext;
+$this->language = $language;
+$this->trustResolver = $trustResolver;
+$this->roleHierarchy = $roleHierarchy;
+}
+public function onKernelController(FilterControllerEvent $event)
+{
+$request = $event->getRequest();
+if (!$configuration = $request->attributes->get('_security')) {
+return;
+}
+if (null === $this->securityContext || null === $this->trustResolver) {
+throw new \LogicException('To use the @Security tag, you need to install the Symfony Security bundle.');
+}
+if (!$this->language->evaluate($configuration->getExpression(), $this->getVariables($request))) {
+throw new AccessDeniedException(sprintf('Expression "%s" denied access.', $configuration->getExpression()));
+}
+}
+private function getVariables(Request $request)
+{
+$token = $this->securityContext->getToken();
+if (null !== $this->roleHierarchy) {
+$roles = $this->roleHierarchy->getReachableRoles($token->getRoles());
+} else {
+$roles = $token->getRoles();
+}
+$variables = array('token'=> $token,'user'=> $token->getUser(),'object'=> $request,'request'=> $request,'roles'=> array_map(function ($role) { return $role->getRole(); }, $roles),'trust_resolver'=> $this->trustResolver,'security_context'=> $this->securityContext,
+);
+return array_merge($request->attributes->all(), $variables);
+}
+public static function getSubscribedEvents()
+{
+return array(KernelEvents::CONTROLLER =>'onKernelController');
 }
 }
 }
@@ -6181,8 +6419,8 @@ namespace Sensio\Bundle\FrameworkExtraBundle\Configuration
 {
 interface ConfigurationInterface
 {
-function getAliasName();
-function allowArray();
+public function getAliasName();
+public function allowArray();
 }
 }
 namespace Sensio\Bundle\FrameworkExtraBundle\Configuration

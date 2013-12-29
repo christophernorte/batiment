@@ -31,15 +31,13 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected $displayErrors;
 
-    public function setUp()
-    {
+    public function setUp() {
         $this->errorReporting = error_reporting(E_ALL | E_STRICT);
         $this->displayErrors = ini_get('display_errors');
         ini_set('display_errors', '1');
     }
 
-    public function tearDown()
-    {
+    public function tearDown() {
         ini_set('display_errors', $this->displayErrors);
         error_reporting($this->errorReporting);
     }
@@ -218,5 +216,52 @@ PHP
         $handler->handle(E_USER_DEPRECATED, 'foo', 'foo.php', 12, 'foo');
 
         restore_error_handler();
+    }
+
+    /**
+     * @dataProvider provideFatalErrorHandlersData
+     */
+    public function testFatalErrorHandlers($error, $class, $translatedMessage)
+    {
+        $handler = new ErrorHandler();
+        $exceptionHandler = new MockExceptionHandler();
+
+        $m = new \ReflectionMethod($handler, 'handleFatalError');
+        $m->setAccessible(true);
+        $m->invoke($handler, $exceptionHandler, $error);
+
+        $this->assertInstanceof($class, $exceptionHandler->e);
+        $this->assertSame($translatedMessage, $exceptionHandler->e->getMessage());
+        $this->assertSame($error['type'], $exceptionHandler->e->getSeverity());
+        $this->assertSame($error['file'], $exceptionHandler->e->getFile());
+        $this->assertSame($error['line'], $exceptionHandler->e->getLine());
+    }
+
+    public function provideFatalErrorHandlersData()
+    {
+        return array(
+            // undefined function
+            array(
+                array(
+                    'type' => 1,
+                    'line' => 12,
+                    'file' => 'foo.php',
+                    'message' => 'Call to undefined function test_namespaced_function()',
+                ),
+                'Symfony\Component\Debug\Exception\UndefinedFunctionException',
+                'Attempted to call function "test_namespaced_function" from the global namespace in foo.php line 12. Did you mean to call: "\\symfony\\component\\debug\\tests\\fatalerrorhandler\\test_namespaced_function"?',
+            ),
+            // class not found
+            array(
+                array(
+                    'type' => 1,
+                    'line' => 12,
+                    'file' => 'foo.php',
+                    'message' => 'Class \'WhizBangFactory\' not found',
+                ),
+                'Symfony\Component\Debug\Exception\ClassNotFoundException',
+                'Attempted to load class "WhizBangFactory" from the global namespace in foo.php line 12. Did you forget a use statement for this class?',
+            ),
+        );
     }
 }

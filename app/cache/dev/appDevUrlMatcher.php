@@ -24,6 +24,8 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
     {
         $allow = array();
         $pathinfo = rawurldecode($pathinfo);
+        $context = $this->context;
+        $request = $this->request;
 
         if (0 === strpos($pathinfo, '/_')) {
             // _wdt
