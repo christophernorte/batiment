@@ -4,8 +4,8 @@ default:
 batiment:
     resource: "@batimentBundle/Controller/"
     type:     annotation
-    prefix:   /    
+    
 adminBatimentBundle:
     resource: "@adminBatimentBundle/Controller/"
     type:     annotation
-    prefix:   /
+    

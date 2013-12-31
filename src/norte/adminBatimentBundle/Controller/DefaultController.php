@@ -8,11 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+
+/**
+ * @Route("/demo/secured")
+ */
 class DefaultController extends Controller
 {
 
     /**
-     * @Route("/login")
+     * @Route("/login",name="_login")
      * @Template()
      */
     public function loginAction()
@@ -31,7 +35,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/login_check", name="login_check")
+     * @Route("/login_check", name="_login_check")
      */
     public function securityCheckAction()
     {
