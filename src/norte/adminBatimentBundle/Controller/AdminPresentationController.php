@@ -16,7 +16,11 @@ class AdminPresentationController extends Controller {
 	 * @Template()
 	 */
 	public function indexAction() {
-		return array();
+		
+		$em = $this->getDoctrine()->getManager();
+		$entity = $em->getRepository('batimentBundle:Presentation')->find(0);
+		
+		return array('entity' => $entity);
 	}
 
 	/**

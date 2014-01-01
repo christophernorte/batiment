@@ -1,6 +1,37 @@
 {% extends '::adminBase.html.twig' %}
 
+{% block stylesheets %}
+
+<style type="text/css">
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.8/dijit/themes/claro/claro.css";
+</style>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>dojoConfig = {async: true}</script>
+
+<script src="{{ asset('bundles/batiment/js/dojo/dojo.js') }}" type="text/javascript"></script>
+
+<script>
+	require(["dojo/domReady!", "dijit/Editor","dijit/_editor/plugins/FontChoice","dijit/_editor/plugins/TextColor"],
+		function(domReady,Editor,FontChoice,TextColor) {
+			new Editor({
+				plugins: ['cut','copy','paste','|','bold','italic','underline','strikethrough','subscript','superscript','|', 'indent', 'outdent', 'justifyLeft', 'justifyCenter', 'justifyRight'],
+				extraPlugins:['foreColor','hiliteColor',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', generic:true}]
+			}, "richEditor");
+		}
+
+	);
+</script>
+
+{% endblock %}
+
 {% block body %}
-Accueil présentation
+
+
+<div style="width:700px;min-height:100px;background-color: white" id="richEditor">test</div>
+
 
 {% endblock %}
