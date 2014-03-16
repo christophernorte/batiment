@@ -1,4 +1,6 @@
-{% extends '::frontBase.html.twig' %}
+{% extends app.user ? "::adminBase.html.twig" : "::frontBase.html.twig" %}
+
+{#{% extends '::frontBase.html.twig' %}#}
 {% block body %}
 <div class="art-post">
     <div class="art-post-body">

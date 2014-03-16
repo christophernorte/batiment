@@ -1,4 +1,4 @@
-{% extends '::frontBase.html.twig' %}
+{% extends app.user ? "::adminBase.html.twig" : "::frontBase.html.twig" %}
 
 {% block stylesheets %}
 <link href="{{ asset('bundles/batiment/js/norte/pictureShowerWidget/css/PictureShower.css') }}" rel="stylesheet" type="text/css" />

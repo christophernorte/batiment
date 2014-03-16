@@ -1,4 +1,4 @@
-{% extends '::frontBase.html.twig' %}
+{% extends app.user ? "::adminBase.html.twig" : "::frontBase.html.twig" %}
 
 {% block javascript %}
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAYsGw-v525t8TaFr2BlJ3WmodjN4D1Vpw&sensor=true"></script>

@@ -23,7 +23,8 @@ security:
             security: false
 
         secured_area:
-            pattern:    ^/secured/
+            pattern:    ^/
+            anonymous: ~
             form_login:
                 check_path: _login_check
                 login_path: _login
@@ -35,5 +36,5 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
-        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
+        - { path: ^/secured/, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
