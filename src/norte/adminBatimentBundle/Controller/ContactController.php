@@ -134,13 +134,13 @@ class ContactController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
+	
         $entity = $em->getRepository('adminBatimentBundle:Contact')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Contact entity.');
         }
-
+	
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -164,8 +164,8 @@ class ContactController extends Controller
             'action' => $this->generateUrl('secured_contact_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
+	
+        $form->add('submit', 'submit', array('label' => 'Modifier'));
 
         return $form;
     }
@@ -240,7 +240,7 @@ class ContactController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('secured_contact_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Supprimer'))
             ->getForm()
         ;
     }

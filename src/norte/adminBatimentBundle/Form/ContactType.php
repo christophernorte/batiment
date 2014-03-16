@@ -5,6 +5,7 @@ namespace norte\adminBatimentBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactType extends AbstractType
 {
@@ -14,9 +15,8 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('titre')
-            ->add('information')
+        $builder->add('titre','text',array('constraints' => new NotBlank()))
+            ->add('information','text',array('constraints' => new NotBlank()));
         ;
     }
     
