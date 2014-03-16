@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block link %}
+<li>
+	<a href="{{ path('presentation') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Accueil</span></a>
+</li>
+<li>
+	<a href="{{ path('contact') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Contact</span></a>
+</li>
+<li>
+	<a href="{{ path('galerie') }}"><span class="l"></span><span class="r"></span><span class="t">Galerie Photo</span></a>
+</li>
+{% endblock %}

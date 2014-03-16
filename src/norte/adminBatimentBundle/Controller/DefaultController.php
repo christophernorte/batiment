@@ -20,8 +20,7 @@ class DefaultController extends Controller
 	public function IndexAction()
 	{
 		
-//		return $this->render('adminBatimentBundle:Default:index.html.twig');
-		return $this->redirect($this->generateUrl('_adminpresentation'));
+		return $this->redirect($this->generateUrl('secured_presentation_edit'));
 	}
 	
 	/**

@@ -4,9 +4,18 @@
 <link rel="stylesheet" href="{{ asset('bundles/batiment/css/adminstyle.css') }}" type="text/css" media="all" />
 {% endblock %}
 
-{% block adminlink %}
+{% block link %}
 <li>
-	<a href="{{ path('_adminpresentation') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Editer Accueil</span></a>
+	<a href="{{ path('presentation') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Accueil</span></a>
+</li>
+<li>
+	<a href="{{ path('contact') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Contact</span></a>
+</li>
+<li>
+	<a href="{{ path('galerie') }}"><span class="l"></span><span class="r"></span><span class="t">Galerie Photo</span></a>
+</li>
+<li>
+	<a href="{{ path('secured_presentation_edit') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Editer Accueil</span></a>
 </li>
 <li>
 	<a href="{{ path('secured_contact') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Editer Contact</span></a>

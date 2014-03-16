@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/secured/presentation")
+ * @Route("/secured/oldpresentation")
  */
 class AdminPresentationController extends Controller {
 

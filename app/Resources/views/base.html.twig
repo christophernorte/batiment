@@ -37,16 +37,7 @@
                         <div class="l"></div>
                         <div class="r"></div>
                         <ul class="art-menu">
-                            <li>
-                                <a href="{{ path('presentation') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Accueil</span></a>
-                            </li>
-                            <li>
-                                <a href="{{ path('contact') }}" class="{ActiveItem}"><span class="l"></span><span class="r"></span><span class="t">Contact</span></a>
-                            </li>
-                            <li>
-                                <a href="{{ path('galerie') }}"><span class="l"></span><span class="r"></span><span class="t">Galerie Photo</span></a>
-                            </li>
-			{% block adminlink %}{% endblock %}
+			{% block link %}{% endblock %}
                         </ul>
                     </div>
                     <div class="art-content-layout">
