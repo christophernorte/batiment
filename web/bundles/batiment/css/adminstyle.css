@@ -1,0 +1,13 @@
+.adminTab
+{
+	background-color: rgba(255, 255, 255, 0.4);
+	padding: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.adminTab a
+{
+	text-decoration: none;
+}

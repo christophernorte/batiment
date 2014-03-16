@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block javascript %}
-
+<script>dojoConfig = {parseOnLoad: true}</script>
 <script>dojoConfig = {async: true}</script>
 
 <script src="{{ asset('bundles/batiment/js/dojo/dojo.js') }}" type="text/javascript"></script>
@@ -22,7 +22,6 @@
 				extraPlugins:['foreColor','hiliteColor',{name:'dijit/_editor/plugins/FontChoice', command:'fontName', generic:true}]
 			}, "richEditor");
 		}
-
 	);
 </script>
 

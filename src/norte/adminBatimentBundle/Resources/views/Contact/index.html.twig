@@ -1,0 +1,41 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body -%}
+    <h1>Editer la page contact</h1>
+
+    <table class="adminTab">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Information</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('secured_contact_show', { 'id': entity.id }) }}">{{ entity.titre }}</a></td>
+                <td>{{ entity.information }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('secured_contact_show', { 'id': entity.id }) }}">Détails</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('secured_contact_edit', { 'id': entity.id }) }}">Modifier</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('secured_contact_new') }}">
+                Ajouter une information
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
