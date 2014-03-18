@@ -1,0 +1,47 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body -%}
+    <h1>Liste des photo</h1>
+
+    <table class="adminTab" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Commentaire</th>
+                <th>Visible</th>
+                <th>Date de création</th>
+                <th>Dernière modification</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+		<tr style="{{ entity.isaffiche ? '' : 'opacity: 0.5;filter : alpha(opacity=10);' }}">
+		    <td><a href="{{ path('secured_photo_show', { 'id': entity.id }) }}"><img class="picture" src="{{ entity.url }}" /></a></td>
+                <td>{{ entity.commentaire }}</td>
+                <td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('secured_photo_show', { 'id': entity.id }) }}">Détails</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('secured_photo_edit', { 'id': entity.id }) }}">Modifier</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('secured_photo_new') }}">
+                Ajouter une photo
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

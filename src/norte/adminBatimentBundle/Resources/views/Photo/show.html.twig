@@ -1,0 +1,43 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body -%}
+<h1>Photo</h1>
+
+<table class="adminTab">
+        <tbody>
+		<tr style="">
+			<td colspan="2"><img style="width: 500px;" class="picture" src="{{ entity.url }}" /></td>
+		</tr>
+		<tr>
+			<th>Commentaire</th>
+			<td>{{ entity.commentaire }}</td>
+		</tr>
+		<tr>
+			<th>Visible</th>
+			<td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
+		</tr>
+		<tr>
+			<th>Date de création</th>
+			<td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+		</tr>
+		<tr>
+			<th>Dernière modification</th>
+			<td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+		</tr>
+        </tbody>
+</table>
+
+<ul class="record_actions">
+	<li>
+		<a href="{{ path('secured_photo') }}">
+			Retour à la liste
+		</a>
+	</li>
+	<li>
+		<a href="{{ path('secured_photo_edit', { 'id': entity.id }) }}">
+			Editer
+		</a>
+	</li>
+	<li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
