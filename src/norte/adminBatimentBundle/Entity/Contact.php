@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Contact
  *
- * @ORM\Table()
+ * @ORM\Table(name="Contact")
  * @ORM\Entity
  */
 class Contact
@@ -15,76 +15,57 @@ class Contact
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
     /**
      * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=200, nullable=false)
      */
     private $titre;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="information", type="string", length=200, nullable=false)
      */
     private $information;
 
-
-    /**
-     * Set titre
-     *
-     * @param string $titre
-     * @return Contact
-     */
-    public function setTitre($titre)
+    
+    public function getId()
     {
-        $this->titre = $titre;
-
-        return $this;
+	    return $this->id;
     }
 
-    /**
-     * Get titre
-     *
-     * @return string 
-     */
     public function getTitre()
     {
-        return $this->titre;
+	    return $this->titre;
     }
 
-    /**
-     * Set information
-     *
-     * @param string $information
-     * @return Contact
-     */
-    public function setInformation($information)
-    {
-        $this->information = $information;
-
-        return $this;
-    }
-
-    /**
-     * Get information
-     *
-     * @return string 
-     */
     public function getInformation()
     {
-        return $this->information;
+	    return $this->information;
     }
+
+    public function setId($id)
+    {
+	    $this->id = $id;
+    }
+
+    public function setTitre($titre)
+    {
+	    $this->titre = $titre;
+    }
+
+    public function setInformation($information)
+    {
+	    $this->information = $information;
+    }
+
+
+
 }

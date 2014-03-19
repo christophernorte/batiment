@@ -15,12 +15,14 @@ class PhotoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url','file')
+            ->add('url')
             ->add('commentaire')
             ->add('isaffiche')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('idrubrique');
+            ->add('idrubrique')
+	    ->add('image','file');
+	
     }
     
     /**

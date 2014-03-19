@@ -6,168 +6,120 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Rubrique
+ *
+ * @ORM\Table(name="Rubrique")
+ * @ORM\Entity
  */
 class Rubrique
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
      * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=100, nullable=true)
      */
     private $nom;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
      */
     private $commentaire;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=200, nullable=false)
      */
     private $adresse;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
     private $updatedAt;
 
-    /**
-     * @var integer
-     */
-    private $id;
 
-
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     * @return Rubrique
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * Get nom
-     *
-     * @return string 
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    /**
-     * Set commentaire
-     *
-     * @param string $commentaire
-     * @return Rubrique
-     */
-    public function setCommentaire($commentaire)
-    {
-        $this->commentaire = $commentaire;
-
-        return $this;
-    }
-
-    /**
-     * Get commentaire
-     *
-     * @return string 
-     */
-    public function getCommentaire()
-    {
-        return $this->commentaire;
-    }
-
-    /**
-     * Set adresse
-     *
-     * @param string $adresse
-     * @return Rubrique
-     */
-    public function setAdresse($adresse)
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    /**
-     * Get adresse
-     *
-     * @return string 
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Rubrique
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Rubrique
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
-        return $this->id;
+	    return $this->id;
     }
-    
-    public function __toString()
+
+    public function getNom()
     {
 	    return $this->nom;
     }
 
+    public function getCommentaire()
+    {
+	    return $this->commentaire;
+    }
+
+    public function getAdresse()
+    {
+	    return $this->adresse;
+    }
+
+    public function getCreatedAt()
+    {
+	    return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+	    return $this->updatedAt;
+    }
+
+    public function setId($id)
+    {
+	    $this->id = $id;
+    }
+
+    public function setNom($nom)
+    {
+	    $this->nom = $nom;
+    }
+
+    public function setCommentaire($commentaire)
+    {
+	    $this->commentaire = $commentaire;
+    }
+
+    public function setAdresse($adresse)
+    {
+	    $this->adresse = $adresse;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+	    $this->createdAt = $createdAt;
+    }
+
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+	    $this->updatedAt = $updatedAt;
+    }
+
+
+    public function __toString()
+    {
+	    return $this->nom;
+    }
 }

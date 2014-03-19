@@ -4,8 +4,10 @@
     <h1>Edition d'un contact</h1>
 
     {{ form_start(edit_form) }}
-    {{ form_errors(edit_form.textacceuil) }}
-    {{ form_widget(edit_form.textacceuil) }}
+    {{ form_errors(edit_form.titre) }}
+    {{ form_widget(edit_form.titre) }}
+    {{ form_errors(edit_form.information) }}
+    {{ form_widget(edit_form.information) }}
     {{ form_widget(edit_form.submit) }}
     {{ form_end(edit_form) }}
 

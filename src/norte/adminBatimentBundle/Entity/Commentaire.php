@@ -6,80 +6,51 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Commentaire
+ *
+ * @ORM\Table(name="Commentaire", indexes={@ORM\Index(name="idPhoto", columns={"idPhoto"})})
+ * @ORM\Entity
  */
 class Commentaire
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
      * @var string
+     *
+     * @ORM\Column(name="text", type="text", nullable=false)
      */
     private $text;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     private $date;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="isaffiche", type="boolean", nullable=false)
      */
-    private $isaffiche;
+    private $isaffiche = 0;
 
     /**
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @var \norte\adminBatimentBundle\Entity\Photo
+     * @var \Photo
+     *
+     * @ORM\ManyToOne(targetEntity="Photo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPhoto", referencedColumnName="id")
+     * })
      */
     private $idphoto;
-
-
-    /**
-     * Set text
-     *
-     * @param string $text
-     * @return Commentaire
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string 
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Commentaire
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     /**
      * Set isaffiche
@@ -136,4 +107,26 @@ class Commentaire
     {
         return $this->idphoto;
     }
+    
+    public function getText()
+    {
+	    return $this->text;
+    }
+
+    public function getDate()
+    {
+	    return $this->date;
+    }
+
+    public function setText($text)
+    {
+	    $this->text = $text;
+    }
+
+    public function setDate(\DateTime $date)
+    {
+	    $this->date = $date;
+    }
+
+
 }
