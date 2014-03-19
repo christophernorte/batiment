@@ -139,7 +139,7 @@ class Photo
 		$this->updatedAt = $updatedAt;
 	}
 
-	public function setIdrubrique(\Rubrique $idrubrique)
+	public function setIdrubrique(\norte\adminBatimentBundle\Entity\Rubrique $idrubrique)
 	{
 		$this->idrubrique = $idrubrique;
 	}

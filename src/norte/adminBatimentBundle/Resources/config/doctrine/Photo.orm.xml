@@ -7,7 +7,7 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="url" type="string" column="url" length="200" nullable="false"/>
+    <field name="url" type="string" column="url" length="200" nullable="true"/>
     <field name="commentaire" type="text" column="commentaire" nullable="true"/>
     <field name="isaffiche" type="boolean" column="isaffiche" nullable="false"/>
     <field name="createdAt" type="datetime" column="created_at" nullable="false"/>
