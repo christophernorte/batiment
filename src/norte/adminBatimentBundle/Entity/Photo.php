@@ -64,7 +64,7 @@ class Photo
 	 *
 	 * @ORM\ManyToOne(targetEntity="Rubrique")
 	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="idrubrique", referencedColumnName="id")
+	 *   @ORM\JoinColumn(name="idrubrique", referencedColumnName="id",nullable=false)
 	 * })
 	 */
 	private $idrubrique;

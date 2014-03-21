@@ -14,7 +14,7 @@
     <field name="updatedAt" type="datetime" column="updated_at" nullable="false"/>
     <many-to-one field="idrubrique" target-entity="Rubrique">
       <join-columns>
-        <join-column name="idrubrique" referenced-column-name="id"/>
+        <join-column name="idrubrique" referenced-column-name="id" nullable="false"/>
       </join-columns>
     </many-to-one>
   </entity>
