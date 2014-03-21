@@ -53,6 +53,11 @@ class PhotoController extends Controller
 		
 		if ($form->isValid()) {
 		    $em = $this->getDoctrine()->getManager();
+		    
+		    $date = new \DateTime("now");
+		    
+		    $entity->setCreatedAt($date);
+		    $entity->setUpdatedAt($date);
 		    $entity->upload();
 		    
 		    $em->persist($entity);

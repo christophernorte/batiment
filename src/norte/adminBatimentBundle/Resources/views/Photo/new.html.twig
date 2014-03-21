@@ -1,15 +1,35 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Photo creation</h1>
+	<h1>Photo creation</h1>
 
-    {{ form(form) }}
+	{{ form_start(form) }}
+	
+	{{ form_errors(form.commentaire) }}
+	{{ form_label(form.commentaire) }}
+	{{ form_widget(form.commentaire, {'attr': {'rows': '10','cols': '60'} }) }}<br />
+	
+	{{ form_errors(form.isaffiche) }}
+	{{ form_label(form.isaffiche)  }}
+	{{ form_widget(form.isaffiche) }}<br />
+	
+	{{ form_errors(form.idrubrique) }}
+	{{ form_label(form.idrubrique)  }}
+	{{ form_widget(form.idrubrique) }}<br />
+	
+	{{ form_errors(form.image) }}
+	{{ form_label(form.image)  }}
+	{{ form_widget(form.image) }}<br />
+	
+	{{ form_widget(form.submit) }}
+	
+	{{ form_end(form) }}
 
         <ul class="record_actions">
-    <li>
-        <a href="{{ path('secured_photo') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+		<li>
+			<a href="{{ path('secured_photo') }}">
+				Back to the list
+			</a>
+		</li>
+	</ul>
 {% endblock %}
