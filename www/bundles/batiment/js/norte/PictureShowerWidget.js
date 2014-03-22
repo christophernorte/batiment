@@ -35,7 +35,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			
 			mouseBackgroundColor: "#def",
 			
-			root: "/app_dev.php/",
+			root: "",
             
 			postCreate: function(){
 				// Get a DOM node reference for the root of our widget

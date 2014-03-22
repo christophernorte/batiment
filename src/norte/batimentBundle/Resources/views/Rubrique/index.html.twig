@@ -27,9 +27,10 @@
 	<script>
 		require(["dojo/dom", "dojo/domReady!","norte/PictureShowerWidget","dojo/_base/xhr"], 
 		function(dom,domReady,PictureShowerWidget,xhr) {
+			var root = "/app_dev.php/";
 			
 			var listRubriqueRequest = xhr.get({
-				url: "/app_dev.php/galerie/rubriques",
+				url: root+"galerie/rubriques",
 				handleAs: "json"
 			});
 		
@@ -37,17 +38,17 @@
 			
 				//Définit les photos par defaut
 				xhr.get({
-					url: "/app_dev.php/photo/defaut-photo",
+					url: root+"photo/defaut-photo",
 					handleAs: "json",
 					load:function(listImageDefaut){
 						
 						// Recherche des commentaire associé à la première photo.
 						xhr.get({
-								url: "/app_dev.php/commentaire/"+listImageDefaut[0].id,
+								url: root+"commentaire/"+listImageDefaut[0].id,
 								handleAs: "json",
 								load:function(listCommentaire){
 
-								var widget = new PictureShowerWidget({"listRubrique":listRubrique,"listImage":listImageDefaut,"listCommentaire":listCommentaire});
+								var widget = new PictureShowerWidget({"listRubrique":listRubrique,"listImage":listImageDefaut,"listCommentaire":listCommentaire,"root":root});
 
 								widget.placeAt(dom.byId('containerPictureWidget'));
 								widget.start();
