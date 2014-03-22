@@ -34,6 +34,8 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			baseBackgroundColor: "#fff",
 			
 			mouseBackgroundColor: "#def",
+			
+			root: "/app_dev.php/",
             
 			postCreate: function(){
 				// Get a DOM node reference for the root of our widget
@@ -165,7 +167,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				// Submit du formulaire
 				xhr.post(
 				{
-					url: "/app_dev.php/commentaire/create/",
+					url: this.root+"commentaire/create/",
 					form : this.commentaireForm,
 					handleAs : "json",
 					load: lang.hitch(this,function(formStatus){
@@ -314,7 +316,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				},liNode);
 
 				var event = {
-					url: "/app_dev.php/photo/rubrique-photo/"+rubrique.id,
+					url: this.root+"photo/rubrique-photo/"+rubrique.id,
 					handleAs: "json",
 					load: lang.hitch(this,function imagesRubriqueLoaded(listImage){
 						this.setListImage(listImage);
@@ -341,7 +343,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			_displayCommentaire:function(idImage)
 			{
 				xhr.get({
-						url: "/app_dev.php/commentaire/"+idImage,
+						url: this.root+"commentaire/"+idImage,
 						handleAs: "json",
 						load:lang.hitch(this,function(listCommentaire){
 							this.listCommentaire = listCommentaire;
