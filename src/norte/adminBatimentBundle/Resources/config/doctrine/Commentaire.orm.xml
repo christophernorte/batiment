@@ -10,7 +10,7 @@
     <field name="text" type="text" column="text" nullable="false"/>
     <field name="date" type="datetime" column="date" nullable="false"/>
     <field name="isaffiche" type="boolean" column="isaffiche" nullable="false"/>
-    <many-to-one field="idphoto" target-entity="Photo" inversed-by="usercommentaire">
+    <many-to-one field="idphoto" target-entity="Photo" inversed-by="userCommentaire">
       <join-columns>
         <join-column name="idPhoto" referenced-column-name="id" />
       </join-columns>
