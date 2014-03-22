@@ -12,114 +12,129 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rubrique
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=100, nullable=false)
-     */
-    private $nom;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 */
+	private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="commentaire", type="text", nullable=true)
-     */
-    private $commentaire;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="nom", type="string", length=100, nullable=false)
+	 */
+	private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=200, nullable=true)
-     */
-    private $adresse;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="commentaire", type="text", nullable=true)
+	 */
+	private $commentaire;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
-    private $createdAt;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="adresse", type="string", length=200, nullable=true)
+	 */
+	private $adresse;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
-    private $updatedAt;
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
+	 */
+	private $createdAt;
 
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+	 */
+	private $updatedAt;
 
-    public function getId()
-    {
-	    return $this->id;
-    }
+	/**
+	 * @ORM\OneToMany(targetEntity="norte\adminBatimentBundle\Entity\Photo", mappedBy="idPhoto")
+	 */
+	private $photos;
 
-    public function getNom()
-    {
-	    return $this->nom;
-    }
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    public function getCommentaire()
-    {
-	    return $this->commentaire;
-    }
+	public function getNom()
+	{
+		return $this->nom;
+	}
+	
+	public function getUserCommentaire()
+	{
+		return $this->userCommentaire;
+	}
 
-    public function getAdresse()
-    {
-	    return $this->adresse;
-    }
+	public function setUserCommentaire($userCommentaire)
+	{
+		$this->userCommentaire = $userCommentaire;
+	}
 
-    public function getCreatedAt()
-    {
-	    return $this->createdAt;
-    }
+	public function getCommentaire()
+	{
+		return $this->commentaire;
+	}
 
-    public function getUpdatedAt()
-    {
-	    return $this->updatedAt;
-    }
+	public function getAdresse()
+	{
+		return $this->adresse;
+	}
 
-    public function setId($id)
-    {
-	    $this->id = $id;
-    }
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
 
-    public function setNom($nom)
-    {
-	    $this->nom = $nom;
-    }
+	public function getUpdatedAt()
+	{
+		return $this->updatedAt;
+	}
 
-    public function setCommentaire($commentaire)
-    {
-	    $this->commentaire = $commentaire;
-    }
+	public function setId($id)
+	{
+		$this->id = $id;
+	}
 
-    public function setAdresse($adresse)
-    {
-	    $this->adresse = $adresse;
-    }
+	public function setNom($nom)
+	{
+		$this->nom = $nom;
+	}
 
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-	    $this->createdAt = $createdAt;
-    }
+	public function setCommentaire($commentaire)
+	{
+		$this->commentaire = $commentaire;
+	}
 
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-	    $this->updatedAt = $updatedAt;
-    }
+	public function setAdresse($adresse)
+	{
+		$this->adresse = $adresse;
+	}
 
+	public function setCreatedAt(\DateTime $createdAt)
+	{
+		$this->createdAt = $createdAt;
+	}
 
-    public function __toString()
-    {
-	    return $this->nom;
-    }
+	public function setUpdatedAt(\DateTime $updatedAt)
+	{
+		$this->updatedAt = $updatedAt;
+	}
+
+	public function __toString()
+	{
+		return $this->nom;
+	}
+
 }

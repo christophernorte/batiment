@@ -70,7 +70,7 @@ class Photo
 	private $idrubrique;
 	
 	/**
-	 * @OneToMany(targetEntity="norte\adminBatimentBundle\Entity\Commentaire", mappedBy="idPhoto")
+	 * @ORM\OneToMany(targetEntity="norte\adminBatimentBundle\Entity\Commentaire", mappedBy="idPhoto")
 	 */
 	private $userCommentaire;
 	
@@ -186,7 +186,7 @@ class Photo
 		{
 			return;
 		}
-
+		
 		// utilisez le nom de fichier original ici mais
 		// vous devriez « l'assainir » pour au moins éviter
 		// quelconques problèmes de sécurité
@@ -197,6 +197,38 @@ class Photo
 		// définit la propriété « path » comme étant le nom de fichier où vous
 		// avez stocké le fichier
 		$this->url = DIRECTORY_SEPARATOR . $this->getUploadDir() . $this->image->getClientOriginalName();
+		
+		// Compression de l'image
+		$urlWorkingFile = $this->getUploadDir() . $this->image->getClientOriginalName();
+		$ext = pathinfo($urlWorkingFile, PATHINFO_EXTENSION);
+		
+		$im = null;
+		switch ($ext)
+		{
+			case 'png':
+				
+				$im = imagecreatefrompng($urlWorkingFile);
+
+				imagepng($im, $urlWorkingFile, 7);
+				break;
+			case 'jpg':
+				
+				$im = imagecreatefromjpeg($urlWorkingFile);
+
+				imagejpeg($im, $urlWorkingFile, 7);
+				
+				break;
+			case 'gif':
+				
+				$im = imagecreatefromgif($urlWorkingFile);
+
+				imagegif($im, $urlWorkingFile, 7);
+				break;
+		}
+		
+		if($im != null){
+			imagedestroy($im);
+		}
 	}
 
 	public function isImageFile()

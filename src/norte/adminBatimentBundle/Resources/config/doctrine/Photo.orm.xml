@@ -12,7 +12,7 @@
 		<field name="isaffiche" type="boolean" column="isaffiche" nullable="false"/>
 		<field name="createdAt" type="datetime" column="created_at" nullable="false"/>
 		<field name="updatedAt" type="datetime" column="updated_at" nullable="false"/>
-		<many-to-one field="idrubrique" target-entity="Rubrique">
+		<many-to-one field="idrubrique" target-entity="Rubrique" inversed-by="photos">
 			<join-columns>
 				<join-column name="idrubrique" referenced-column-name="id" nullable="false"/>
 			</join-columns>
