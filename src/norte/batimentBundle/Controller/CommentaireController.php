@@ -28,7 +28,7 @@ class CommentaireController extends Controller {
 		
 		$entities = $em->getRepository('batimentBundle:Commentaire')->findAll();
 		
-		$query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto");
+		$query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche=1");
 		$query->setParameter('idphoto',$idPhoto);
 		$entities = $query->getResult();
 

@@ -20,7 +20,7 @@
 		<tr style="{{ entity.isaffiche ? '' : 'opacity: 0.5;filter : alpha(opacity=10);' }}">
 		    <td><a href="{{ path('secured_photo_show', { 'id': entity.id }) }}"><img class="picture" src="{{ entity.url }}" /></a></td>
                 <td>{{ entity.commentaire }}</td>
-                <td>{{ entity.countUserCommentaire }}</td>
+                <td>A valider : {{ entity.getCountUserCommentaireToValidate }}<br />Total : {{ entity.countUserCommentaire }} </td>
                 <td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>

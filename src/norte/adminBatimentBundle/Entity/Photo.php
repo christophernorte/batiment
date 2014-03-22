@@ -165,6 +165,20 @@ class Photo
 		return count($this->userCommentaire);
 	}
 	
+	public function getCountUserCommentaireToValidate()
+	{
+		$nbToValidate = 0;
+		foreach ($this->userCommentaire as $commentaire)
+		{
+			if($commentaire->getIsaffiche() == 0)
+			{
+				$nbToValidate++;
+			}
+		}
+		
+		return $nbToValidate;
+	}
+	
 	public function upload()
 	{
 		// la propriété « file » peut être vide si le champ n'est pas requis
