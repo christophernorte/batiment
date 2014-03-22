@@ -24,7 +24,7 @@ class Rubrique
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=100, nullable=true)
+     * @ORM\Column(name="nom", type="string", length=100, nullable=false)
      */
     private $nom;
 
@@ -38,7 +38,7 @@ class Rubrique
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=200, nullable=false)
+     * @ORM\Column(name="adresse", type="string", length=200, nullable=true)
      */
     private $adresse;
 

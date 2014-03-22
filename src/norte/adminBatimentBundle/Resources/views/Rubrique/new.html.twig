@@ -1,15 +1,27 @@
-{% extends '::base.html.twig' %}
+{% extends '::adminBase.html.twig' %}
 
 {% block body -%}
-    <h1>Rubrique creation</h1>
+	<h1>Créer une rubrique</h1>
 
-    {{ form(form) }}
+	{{ form_start(form) }}
+
+	{{ form_errors(form.nom) }}
+	{{ form_label(form.nom)  }}
+	{{ form_widget(form.nom) }}<br />
+
+	{{ form_errors(form.adresse) }}
+	Lieu
+	{{ form_widget(form.adresse) }}<br />
+
+	{{ form_widget(form.submit) }}
+
+	{{ form_end(form) }}
 
         <ul class="record_actions">
-    <li>
-        <a href="{{ path('secured_rubrique') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+		<li>
+			<a href="{{ path('secured_rubrique') }}">
+				Retour à la liste des rubriques
+			</a>
+		</li>
+	</ul>
 {% endblock %}

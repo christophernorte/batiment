@@ -16,10 +16,7 @@ class RubriqueType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('commentaire')
             ->add('adresse')
-            ->add('createdAt')
-            ->add('updatedAt')
         ;
     }
     

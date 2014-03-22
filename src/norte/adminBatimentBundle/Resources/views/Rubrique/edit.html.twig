@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends '::adminBase.html.twig' %}
 
 {% block body -%}
     <h1>Rubrique edit</h1>
@@ -8,7 +8,7 @@
         <ul class="record_actions">
     <li>
         <a href="{{ path('secured_rubrique') }}">
-            Back to the list
+            Retour à la liste des rubriques
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>

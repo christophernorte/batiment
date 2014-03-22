@@ -18,230 +18,251 @@ use norte\adminBatimentBundle\Form\RubriqueType;
 class RubriqueController extends Controller
 {
 
-    /**
-     * Lists all Rubrique entities.
-     *
-     * @Route("/", name="secured_rubrique")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Lists all Rubrique entities.
+	 *
+	 * @Route("/", name="secured_rubrique")
+	 * @Method("GET")
+	 * @Template()
+	 */
+	public function indexAction()
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('adminBatimentBundle:Rubrique')->findAll();
+		$entities = $em->getRepository('adminBatimentBundle:Rubrique')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
-    }
-    /**
-     * Creates a new Rubrique entity.
-     *
-     * @Route("/", name="secured_rubrique_create")
-     * @Method("POST")
-     * @Template("adminBatimentBundle:Rubrique:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Rubrique();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+		return array(
+		    'entities' => $entities,
+		);
+	}
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+	/**
+	 * Creates a new Rubrique entity.
+	 *
+	 * @Route("/", name="secured_rubrique_create")
+	 * @Method("POST")
+	 * @Template("adminBatimentBundle:Rubrique:new.html.twig")
+	 */
+	public function createAction(Request $request)
+	{
+		$entity = new Rubrique();
+		$form = $this->createCreateForm($entity);
+		$form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('secured_rubrique_show', array('id' => $entity->getId())));
-        }
+		if ($form->isValid())
+		{
+			$em = $this->getDoctrine()->getManager();
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
+			$date = new \DateTime("now");
 
-    /**
-    * Creates a form to create a Rubrique entity.
-    *
-    * @param Rubrique $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Rubrique $entity)
-    {
-        $form = $this->createForm(new RubriqueType(), $entity, array(
-            'action' => $this->generateUrl('secured_rubrique_create'),
-            'method' => 'POST',
-        ));
+			$entity->setCreatedAt($date);
+			$entity->setUpdatedAt($date);
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+			$em->persist($entity);
+			$em->flush();
 
-        return $form;
-    }
+			return $this->redirect($this->generateUrl('secured_rubrique_show', array('id' => $entity->getId())));
+		}
 
-    /**
-     * Displays a form to create a new Rubrique entity.
-     *
-     * @Route("/new", name="secured_rubrique_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Rubrique();
-        $form   = $this->createCreateForm($entity);
+		return array(
+		    'entity' => $entity,
+		    'form' => $form->createView(),
+		);
+	}
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
+	/**
+	 * Creates a form to create a Rubrique entity.
+	 *
+	 * @param Rubrique $entity The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createCreateForm(Rubrique $entity)
+	{
+		$form = $this->createForm(new RubriqueType(), $entity, array(
+		    'action' => $this->generateUrl('secured_rubrique_create'),
+		    'method' => 'POST',
+		));
 
-    /**
-     * Finds and displays a Rubrique entity.
-     *
-     * @Route("/{id}", name="secured_rubrique_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		$form->add('submit', 'submit', array('label' => 'Créer'));
 
-        $entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		return $form;
+	}
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Rubrique entity.');
-        }
+	/**
+	 * Displays a form to create a new Rubrique entity.
+	 *
+	 * @Route("/new", name="secured_rubrique_new")
+	 * @Method("GET")
+	 * @Template()
+	 */
+	public function newAction()
+	{
+		$entity = new Rubrique();
+		$form = $this->createCreateForm($entity);
 
-        $deleteForm = $this->createDeleteForm($id);
+		return array(
+		    'entity' => $entity,
+		    'form' => $form->createView(),
+		);
+	}
 
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+	/**
+	 * Finds and displays a Rubrique entity.
+	 *
+	 * @Route("/{id}", name="secured_rubrique_show")
+	 * @Method("GET")
+	 * @Template()
+	 */
+	public function showAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-    /**
-     * Displays a form to edit an existing Rubrique entity.
-     *
-     * @Route("/{id}/edit", name="secured_rubrique_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
 
-        $entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		if (!$entity)
+		{
+			throw $this->createNotFoundException('Unable to find Rubrique entity.');
+		}
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Rubrique entity.');
-        }
+		$deleteForm = $this->createDeleteForm($id);
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+		return array(
+		    'entity' => $entity,
+		    'delete_form' => $deleteForm->createView(),
+		);
+	}
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+	/**
+	 * Displays a form to edit an existing Rubrique entity.
+	 *
+	 * @Route("/{id}/edit", name="secured_rubrique_edit")
+	 * @Method("GET")
+	 * @Template()
+	 */
+	public function editAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-    /**
-    * Creates a form to edit a Rubrique entity.
-    *
-    * @param Rubrique $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Rubrique $entity)
-    {
-        $form = $this->createForm(new RubriqueType(), $entity, array(
-            'action' => $this->generateUrl('secured_rubrique_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
+		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+		if (!$entity)
+		{
+			throw $this->createNotFoundException('Unable to find Rubrique entity.');
+		}
 
-        return $form;
-    }
-    /**
-     * Edits an existing Rubrique entity.
-     *
-     * @Route("/{id}", name="secured_rubrique_update")
-     * @Method("PUT")
-     * @Template("adminBatimentBundle:Rubrique:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		$editForm = $this->createEditForm($entity);
+		$deleteForm = $this->createDeleteForm($id);
 
-        $entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		return array(
+		    'entity' => $entity,
+		    'edit_form' => $editForm->createView(),
+		    'delete_form' => $deleteForm->createView(),
+		);
+	}
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Rubrique entity.');
-        }
+	/**
+	 * Creates a form to edit a Rubrique entity.
+	 *
+	 * @param Rubrique $entity The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createEditForm(Rubrique $entity)
+	{
+		$form = $this->createForm(new RubriqueType(), $entity, array(
+		    'action' => $this->generateUrl('secured_rubrique_update', array('id' => $entity->getId())),
+		    'method' => 'PUT',
+		));
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+		$form->add('submit', 'submit', array('label' => 'Modifier'));
 
-        if ($editForm->isValid()) {
-            $em->flush();
+		return $form;
+	}
 
-            return $this->redirect($this->generateUrl('secured_rubrique_edit', array('id' => $id)));
-        }
+	/**
+	 * Edits an existing Rubrique entity.
+	 *
+	 * @Route("/{id}", name="secured_rubrique_update")
+	 * @Method("PUT")
+	 * @Template("adminBatimentBundle:Rubrique:edit.html.twig")
+	 */
+	public function updateAction(Request $request, $id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-    /**
-     * Deletes a Rubrique entity.
-     *
-     * @Route("/{id}", name="secured_rubrique_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		if (!$entity)
+		{
+			throw $this->createNotFoundException('Unable to find Rubrique entity.');
+		}
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Rubrique entity.');
-            }
+		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createEditForm($entity);
+		$editForm->handleRequest($request);
 
-            $em->remove($entity);
-            $em->flush();
-        }
+		if ($editForm->isValid())
+		{
+			$date = new \DateTime("now");
 
-        return $this->redirect($this->generateUrl('secured_rubrique'));
-    }
+			$entity->setUpdatedAt($date);
+			
+			$em->flush();
 
-    /**
-     * Creates a form to delete a Rubrique entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('secured_rubrique_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+			return $this->redirect($this->generateUrl('secured_rubrique_edit', array('id' => $id)));
+		}
+
+		return array(
+		    'entity' => $entity,
+		    'edit_form' => $editForm->createView(),
+		    'delete_form' => $deleteForm->createView(),
+		);
+	}
+
+	/**
+	 * Deletes a Rubrique entity.
+	 *
+	 * @Route("/{id}", name="secured_rubrique_delete")
+	 * @Method("DELETE")
+	 */
+	public function deleteAction(Request $request, $id)
+	{
+		$form = $this->createDeleteForm($id);
+		$form->handleRequest($request);
+
+		if ($form->isValid())
+		{
+			$em = $this->getDoctrine()->getManager();
+			$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+
+			if (!$entity)
+			{
+				throw $this->createNotFoundException('Unable to find Rubrique entity.');
+			}
+
+			$em->remove($entity);
+			$em->flush();
+		}
+
+		return $this->redirect($this->generateUrl('secured_rubrique'));
+	}
+
+	/**
+	 * Creates a form to delete a Rubrique entity by id.
+	 *
+	 * @param mixed $id The entity id
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createDeleteForm($id)
+	{
+		return $this->createFormBuilder()
+				->setAction($this->generateUrl('secured_rubrique_delete', array('id' => $id)))
+				->setMethod('DELETE')
+				->add('submit', 'submit', array('label' => 'Supprimer'))
+				->getForm()
+		;
+	}
+
 }

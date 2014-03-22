@@ -1,17 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends '::adminBase.html.twig' %}
 
 {% block body -%}
-    <h1>Rubrique list</h1>
+    <h1>Liste des rubriques</h1>
 
-    <table class="records_list">
+    <table class="adminTab">
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Commentaire</th>
-                <th>Adresse</th>
-                <th>Createdat</th>
-                <th>Updatedat</th>
-                <th>Id</th>
+                <th>Lieu</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,18 +15,14 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('secured_rubrique_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
-                <td>{{ entity.commentaire }}</td>
                 <td>{{ entity.adresse }}</td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.id }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('secured_rubrique_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('secured_rubrique_show', { 'id': entity.id }) }}">Détails</a>
                     </li>
                     <li>
-                        <a href="{{ path('secured_rubrique_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('secured_rubrique_edit', { 'id': entity.id }) }}">Modifier</a>
                     </li>
                 </ul>
                 </td>
@@ -42,7 +34,7 @@
         <ul>
         <li>
             <a href="{{ path('secured_rubrique_new') }}">
-                Create a new entry
+                Créer une nouvelle rubrique
             </a>
         </li>
     </ul>
