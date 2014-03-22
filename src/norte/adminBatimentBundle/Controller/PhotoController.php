@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use norte\adminBatimentBundle\Entity\Photo;
 use norte\adminBatimentBundle\Form\PhotoType;
+use norte\adminBatimentBundle\Form\RubriqueFilterType;
+use \norte\batimentBundle\Entity\Rubrique;
 
 /**
  * Photo controller.
@@ -31,9 +33,60 @@ class PhotoController extends Controller
 
 		$entities = $em->getRepository('adminBatimentBundle:Photo')->findAll();
 
+		$formRubrique = $this->createRubriqueFilterForm(new Rubrique());
+
 		return array(
 		    'entities' => $entities,
+		    'formRubriques' => $formRubrique->createView()
 		);
+	}
+
+	/**
+	 * Lists all Photo entities.
+	 *
+	 * @Route("/rubrique/selected", name="secured_photo_rubrique_selected")
+	 * @Method("POST")
+	 * @Template()
+	 */
+	public function rubriqueSelectedAction(Request $request)
+	{
+
+		$selectedRubrique = new Rubrique();
+		$formRubrique = $this->createRubriqueFilterForm($selectedRubrique);
+		$formRubrique->handleRequest($request);
+		
+		if ($formRubrique->isValid())
+		{
+			$selectedRubrique = $formRubrique['nom']->getData();
+			$em = $this->getDoctrine()->getManager();
+			$photos = $em->getRepository('adminBatimentBundle:Photo')->findBy(array('idrubrique' => $selectedRubrique));
+		}
+
+
+
+		return $this->render('adminBatimentBundle:Photo:index.html.twig', array(
+			    'entities' => $photos,
+			    'formRubriques' => $formRubrique->createView()
+		));
+	}
+
+	/**
+	 * Creates a form to create a Rubrique entity.
+	 *
+	 * @param Rubrique $entity The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createRubriqueFilterForm(Rubrique $rubrique)
+	{
+		$form = $this->createForm(new RubriqueFilterType(), null, array(
+		    'action' => $this->generateUrl('secured_photo_rubrique_selected'),
+		    'method' => 'POST',
+		));
+
+		$form->add('submit', 'submit', array('label' => 'Filtrer'));
+
+		return $form;
 	}
 
 	/**
@@ -213,7 +266,7 @@ class PhotoController extends Controller
 			$date = new \DateTime("now");
 
 			$entity->setUpdatedAt($date);
-			
+
 			$em->flush();
 
 			return $this->redirect($this->generateUrl('secured_photo_edit', array('id' => $id)));

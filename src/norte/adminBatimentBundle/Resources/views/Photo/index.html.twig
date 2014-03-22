@@ -1,50 +1,70 @@
 {% extends '::adminBase.html.twig' %}
 
 {% block body -%}
-    <h1>Liste des photographies</h1>
+	<h1>Liste des photographies</h1>
 
-    <table class="adminTab" style="width: 100%">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Commentaire</th>
-		<th>Commentaire utilisateur</th>
-                <th>Visible</th>
-                <th>Date de création</th>
-                <th>Dernière modification</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-		<tr style="{{ entity.isaffiche ? '' : 'opacity: 0.5;filter : alpha(opacity=10);' }}">
-		    <td><a href="{{ path('secured_photo_show', { 'id': entity.id }) }}"><img class="picture" src="{{ entity.url }}" /></a></td>
-                <td>{{ entity.commentaire }}</td>
-                <td><a href="{{ path('secured_commentaire_photo_validate', { 'idPhoto': entity.id }) }}">{{ entity.getCountUserCommentaireToValidate }} à valider</a>
-		<br /><a href="{{ path('secured_commentaire_photo', { 'idPhoto': entity.id }) }}">{{ entity.countUserCommentaire }} total </a></td>
-                <td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('secured_photo_show', { 'id': entity.id }) }}">Détails</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('secured_photo_edit', { 'id': entity.id }) }}">Modifier</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="adminTab" style="width: 100%;margin-bottom: 15px;">
+		<thead>
+			<tr class="adminTitle">
+				<th colspan="3">Recherche</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{{ form_start(formRubriques) }}
+				<td>Rubrique</td>
+				<td>
+					{{ form_widget(formRubriques.nom) }}
+				</td>
+				<td>
+					{{ form_widget(formRubriques.submit) }}
+				</td>
+			</tr>
+			{{ form_end(formRubriques) }}
+		</tbody>
+	</table>
+	<table class="adminTab" style="width: 100%">
+		<thead>
+			<tr>
+				<th>Image</th>
+				<th>Commentaire</th>
+				<th>Commentaire utilisateur</th>
+				<th>Visible</th>
+				<th>Date de création</th>
+				<th>Dernière modification</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entity in entities %}
+				<tr style="{{ entity.isaffiche ? '' : 'opacity: 0.5;filter : alpha(opacity=10);' }}">
+					<td><a href="{{ path('secured_photo_show', { 'id': entity.id }) }}"><img class="picture" src="{{ entity.url }}" /></a></td>
+					<td>{{ entity.commentaire }}</td>
+					<td><a href="{{ path('secured_commentaire_photo_validate', { 'idPhoto': entity.id }) }}">{{ entity.getCountUserCommentaireToValidate }} à valider</a>
+						<br /><a href="{{ path('secured_commentaire_photo', { 'idPhoto': entity.id }) }}">{{ entity.countUserCommentaire }} total </a></td>
+					<td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
+					<td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+					<td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+					<td>
+						<ul>
+							<li>
+								<a href="{{ path('secured_photo_show', { 'id': entity.id }) }}">Détails</a>
+							</li>
+							<li>
+								<a href="{{ path('secured_photo_edit', { 'id': entity.id }) }}">Modifier</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
         <ul>
-        <li>
-            <a href="{{ path('secured_photo_new') }}">
-                Ajouter une photo
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+		<li>
+			<a href="{{ path('secured_photo_new') }}">
+				Ajouter une photo
+			</a>
+		</li>
+	</ul>
+{% endblock %}
