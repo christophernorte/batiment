@@ -24,7 +24,7 @@ class CommentaireController extends Controller {
 	 * @Template()
 	 */
 	public function indexAction($idPhoto) {
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		
 		$entities = $em->getRepository('batimentBundle:Commentaire')->findAll();
 		

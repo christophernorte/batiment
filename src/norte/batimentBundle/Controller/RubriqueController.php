@@ -34,7 +34,7 @@ class RubriqueController extends Controller {
      * @Template()
      */
     public function rubriquesAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('batimentBundle:Rubrique')->findAll();
         $response = new Response();

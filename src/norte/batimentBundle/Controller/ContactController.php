@@ -23,7 +23,7 @@ class ContactController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('batimentBundle:Contact')->findAll();
 

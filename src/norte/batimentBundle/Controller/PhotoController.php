@@ -24,7 +24,7 @@ class PhotoController extends Controller {
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$entities = $em->getRepository('batimentBundle:Photo')->findAll();
 		$response = new Response();
@@ -41,7 +41,7 @@ class PhotoController extends Controller {
 	 * @Template()
 	 */
 	public function defautPhotoAction() {
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$query = $em->createQuery("SELECT p FROM batimentBundle:Photo p WHERE p.idrubrique IS NULL");
 		$photos = $query->getResult();
@@ -70,7 +70,7 @@ class PhotoController extends Controller {
 	 * @Template()
 	 */
 	public function rubriquePhotoAction($idRubrique) {
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$query = $em->createQuery("SELECT p FROM batimentBundle:Photo p WHERE p.idrubrique = :idRubrique");
 		$query->setParameter('idRubrique',(int) $idRubrique);
@@ -89,7 +89,7 @@ class PhotoController extends Controller {
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$entity = $em->getRepository('batimentBundle:Photo')->find($id);
 
