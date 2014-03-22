@@ -111,7 +111,7 @@ class PhotoController extends Controller
 		    'form' => $form->createView(),
 		);
 	}
-//$this->get('request')->request->get('name');
+
 	/**
 	 * Finds and displays a Photo entity.
 	 *

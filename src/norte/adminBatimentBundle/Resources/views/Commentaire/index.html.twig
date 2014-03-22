@@ -1,0 +1,38 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body -%}
+	<h1>Commentaire list</h1>
+
+	<table class="adminTab">
+		<thead>
+			<tr>
+				<th>Text</th>
+				<th>Date</th>
+				<th>Valider ?</th>
+				<th>Rendre visible</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entity in entities %}
+				<tr>
+					<td>{{ entity.text }}</td>
+					<td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+					<td>{{ entity.isaffiche ? 'oui' : 'non' }}</td>
+					<td>
+						<a href="{{ path('secured_commentaire_photo_validated', {'idCommentaire': entity.id,'idPhoto':entity.idPhoto}) }}">{{ entity.isaffiche ? 'non' : 'oui' }}</a>
+					</td>
+				</tr>
+			{% else %}
+			<td colspan="4"> Tous les commentaires ont été validé.</td>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<ul class="record_actions">
+		<li>
+			<a href="{{ path('secured_photo') }}">
+				Retour à la liste des photographies
+			</a>
+		</li>
+	</ul>
+	{% endblock %}
