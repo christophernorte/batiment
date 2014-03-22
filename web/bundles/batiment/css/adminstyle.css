@@ -32,3 +32,13 @@
 	height: 20px;
 	text-align: center;
 }
+
+.noElement
+{
+	text-align: center;
+	color: #5A0000;
+	font-size: 17px;
+	font-weight: 700;
+	height: 90px;
+	padding-top: 50px;
+}
