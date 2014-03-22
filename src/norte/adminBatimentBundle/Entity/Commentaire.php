@@ -45,7 +45,7 @@ class Commentaire
     /**
      * @var \Photo
      *
-     * @ORM\ManyToOne(targetEntity="Photo")
+     * @ORM\ManyToOne(targetEntity="Photo", inversedBy="userCommentaire")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPhoto", referencedColumnName="id")
      * })

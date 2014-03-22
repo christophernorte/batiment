@@ -69,6 +69,11 @@ class Photo
 	 */
 	private $idrubrique;
 	
+	/**
+	 * @OneToMany(targetEntity="norte\adminBatimentBundle\Entity\Commentaire", mappedBy="idPhoto")
+	 */
+	private $userCommentaire;
+	
        /**
 	* @Assert\File(maxSize="6000000")
 	*/
@@ -143,7 +148,23 @@ class Photo
 	{
 		$this->idrubrique = $idrubrique;
 	}
+	
+	public function getUserCommentaire()
+	{
+		return $this->userCommentaire;
+	}
 
+	public function setUserCommentaire($userCommentaire)
+	{
+		$this->userCommentaire = $userCommentaire;
+	}
+
+	
+	public function getCountUserCommentaire()
+	{
+		return count($this->userCommentaire);
+	}
+	
 	public function upload()
 	{
 		// la propriété « file » peut être vide si le champ n'est pas requis
