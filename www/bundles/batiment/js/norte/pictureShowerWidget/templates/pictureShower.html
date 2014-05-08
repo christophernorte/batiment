@@ -1,43 +1,47 @@
-<table id="containerPictureWidget">
-	<tr>
-		<td id="panel-left" rowspan="2">
+<section id="containerPictureWidget" class="row">
+	<aside class="col w15">
+		<div id="rubrique" >
+			<ul id="ulId" data-dojo-attach-point="rubriqueNode">
+
+			</ul>
+		</div>
+	</aside>
+	<aside class="col">
+		<section class="row">
 			<div id="title"><span id="title-text" data-dojo-attach-point="titleNode" >Title</span></div>
-			<div id="previous" data-dojo-attach-point="previousNode" ><</div>
-			<img id="pictureStaring" src="${url}" data-dojo-attach-point="mainPictureNode" />
-			<div id="next" data-dojo-attach-point="nextNode" >></div>
-			<div id="bottomNavigator" data-dojo-attach-point="sliderNode" >
+		</section>
+		<section class="row">
+				<div id="previous" data-dojo-attach-point="previousNode" ><</div>
+				<img id="pictureStaring" src="${url}" data-dojo-attach-point="mainPictureNode" />
+				<div id="next" data-dojo-attach-point="nextNode" >></div>
+		</section>
+		<section class="row">
+			
+			<div id="bottomNavigator" data-dojo-attach-point="sliderNode">
 				<div id="sliderPrevious" data-dojo-attach-point="leftButtonNode" ><</div>
-				<table style="position: absolute;"  data-dojo-attach-point="tableSliderNode">
+				<table  data-dojo-attach-point="tableSliderNode" style="height: 100px;position: absolute;left:160px;">
 					<tr data-dojo-attach-point="sliderTrNode" >
 
 					</tr>
 				</table>
 				<div id="sliderNext" data-dojo-attach-point="rightButtonNode" >></div>
 			</div>
-		</td>
-		<td id="panel-right" style="height: 50%;" >
-			<div id="rubrique" >
-				<ul id="ulId" data-dojo-attach-point="rubriqueNode">
+			
+		</section>
+	</aside>
+	<aside class="col w20">
+		<div id="commentaire-panel-top" data-dojo-attach-point="panelCommentaireNode">
 
-				</ul>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td id="commentaire" style="vertical-align: top">
-			<div id="commentaire-panel-top" data-dojo-attach-point="panelCommentaireNode" id="containerCommentaire">
-				
-			</div>
-			<div id="commentaire-panel-bottom">
-				<div>Commentaires</div>
-				<form  data-dojo-attach-point="commentaireForm" id="commentaireForm">
-					<input data-dojo-attach-point="textCommentaire" id="textCommentaire" type="text" name="text" maxlength="120" />
-					<input type="hidden" data-dojo-attach-point="idphoto" name="idphoto" />
-					<input type="hidden" name="norte_batimentbundle_commentaire" />
-					<input data-dojo-attach-point="sendCommButton" type="button" value="Envoyer" />
-				</form>
-				<div data-dojo-attach-point="sendStatus" style="height: 10px;"></div>
-			</div>
-		</td>
-	</tr>
-</table>
+		</div>
+		<div id="commentaire-panel-bottom">
+			<div>Commentaires</div>
+			<form  data-dojo-attach-point="commentaireForm" id="commentaireForm">
+				<input data-dojo-attach-point="textCommentaire" id="textCommentaire" type="text" name="text" maxlength="120" />
+				<input type="hidden" data-dojo-attach-point="idphoto" name="idphoto" />
+				<input type="hidden" name="norte_batimentbundle_commentaire" />
+				<input data-dojo-attach-point="sendCommButton" type="button" value="Envoyer" />
+			</form>
+			<div data-dojo-attach-point="sendStatus" style="height: 10px;"></div>
+		</div>
+	</aside>
+</section>

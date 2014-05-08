@@ -49,13 +49,13 @@
 }
 #next
 {
-	right: 215px;
+	right: 211px;
 	background-image: url(../images/pagineButton-right.png);
 	text-align: right;
 }
 #previous
 {
-	left:17px;
+	left:163px;
 	background-image: url(../images/pagineButton-left.png);
 }
 
@@ -88,7 +88,7 @@
 #bottomNavigator
 {
 	height: 100px;
-	width: 791px;
+	width: 650px;
 	margin-top: 2px;
 	overflow: hidden;
 	position: absolute;
@@ -99,7 +99,7 @@
 {
 	width: 100%;
 	border-top: 3px gray solid;
-	height: 60px;
+	
 }
 
 #rubrique
@@ -125,7 +125,7 @@
 #commentaire-panel-top
 {
 	overflow: auto;
-	height: 374px;
+	height: 492px;
 	font-size: 12px;
 }
 

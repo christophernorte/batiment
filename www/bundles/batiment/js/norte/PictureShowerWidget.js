@@ -21,7 +21,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			// True si la sourie survol les bouton de pagination.
 			isOverPagineButton : false,
 			
-			widthSlider: 800,
+			widthSlider: 650,
 			
 			widthSumLimit: 0,
 			

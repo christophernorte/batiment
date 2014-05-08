@@ -78,6 +78,13 @@ class Photo
 	* @Assert\File(maxSize="6000000")
 	*/
        public $image;
+       
+       private $logger;
+       
+       public function setLogger($logger)
+       {
+	       $this->logger = $logger;
+       }
 
 	public function getId()
 	{
@@ -186,17 +193,19 @@ class Photo
 		{
 			return;
 		}
-		
+		$this->logger->info('Picture received');
 		// utilisez le nom de fichier original ici mais
 		// vous devriez « l'assainir » pour au moins éviter
 		// quelconques problèmes de sécurité
 		// la méthode « move » prend comme arguments le répertoire cible et
 		// le nom de fichier cible où le fichier doit être déplacé
-		$this->image->move($this->getUploadRootDir(), $this->image->getClientOriginalName());
-
+		$status = $this->image->move($this->getUploadRootDir(), $this->image->getClientOriginalName());
+		
+		$this->logger->info('Picture path : '.$status->getPath());
 		// définit la propriété « path » comme étant le nom de fichier où vous
 		// avez stocké le fichier
 		$this->url = DIRECTORY_SEPARATOR . $this->getUploadDir() . $this->image->getClientOriginalName();
+		$this->logger->info('Picture final path : '.$this->url);
 		
 		// Compression de l'image
 		$urlWorkingFile = $this->getUploadDir() . $this->image->getClientOriginalName();
@@ -212,8 +221,9 @@ class Photo
 				imagepng($im, $urlWorkingFile, 7);
 				break;
 			case 'jpg':
-				
-				$im = imagecreatefromjpeg($urlWorkingFile);
+				$tabDir = scandir('.');
+				var_dump($tabDir);
+				$im = imagecreatefromjpeg('./'.$urlWorkingFile);
 
 				imagejpeg($im, $urlWorkingFile, 7);
 				
@@ -223,6 +233,9 @@ class Photo
 				$im = imagecreatefromgif($urlWorkingFile);
 
 				imagegif($im, $urlWorkingFile, 7);
+				break;
+			default:
+				$this->logger->error('Extention not recognize : '.$ext);
 				break;
 		}
 		
@@ -250,7 +263,7 @@ class Photo
 	{
 
 		// le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-		return __DIR__ . '/../../../../web/';
+		return __DIR__ . '/../../../../www/';
 	}
 
 	protected function getUploadRootDir()

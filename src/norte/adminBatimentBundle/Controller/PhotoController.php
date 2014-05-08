@@ -99,6 +99,7 @@ class PhotoController extends Controller
 	public function createAction(Request $request)
 	{
 		$entity = new Photo();
+		$entity->setLogger($this->get('logger'));
 		$form = $this->createCreateForm($entity);
 		$form->handleRequest($request);
 
