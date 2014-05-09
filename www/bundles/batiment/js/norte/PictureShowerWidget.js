@@ -23,6 +23,10 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			
 			widthSlider: 650,
 			
+			maxheight: 380,
+			
+			maxwidth: 650,
+			
 			widthSumLimit: 0,
 			
 			templateString: template,
@@ -261,6 +265,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				this.currentPos++;
 				this.mainPictureNode.src = this.listImage[this.currentPos].url
+				this._setDynamicSize(this.mainPictureNode);
 				
 				// Déplace le slider si l'image n'est pas visible
 				var leftSize = this._countWidthSize(this.currentPos);
@@ -283,6 +288,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				// Déplace le slider si l'image n'est pas visible
 				var leftSize = this._countWidthSize(this.currentPos);
+				this._setDynamicSize(this.mainPictureNode);
 				
 				if(leftSize < (this.widthSumLimit - this.widthSlider))
 				{
@@ -295,10 +301,76 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			{
 				this.currentPos = index;
 				this.mainPictureNode.src = this.listImage[this.currentPos].url
+				
+				// Applique une contrainte dynamique sur la taille du conteneur en fonction de l'image.
+				this._setDynamicSize(this.mainPictureNode)
+				
+			},
+			
+			_setDynamicSize:function(pictureNode)
+			{
+				var isHeigher = pictureNode.naturalHeight >= pictureNode.naturalWidth;
+				var isMaxHeight = pictureNode.naturalHeight > this.maxheight;
+				var isMaxWidth = pictureNode.naturalWidth > this.maxwidth;
+			
+				if(isMaxWidth)
+				{
+					domStyle.set(pictureNode, "width",this.maxwidth+"px");
+					domStyle.set(pictureNode, "height",'');
+				}
+				
+				if(isMaxHeight)
+				{
+					domStyle.set(pictureNode, "height",this.maxheight+"px");
+					domStyle.set(pictureNode, "width",'');
+					
+					// Calcul de la hauteur possible manuellement.
+					if(domStyle.get(pictureNode, "width")> this.maxwidth)
+					{
+						var pixDelta = domStyle.get(pictureNode, "width") - this.maxwidth;
+						console.log(pixDelta);
+						var coefReduc = (100 - ((pixDelta * 100) / this.maxwidth)) / 100;
+						console.log(coefReduc);
+						
+						var calculedHeight = domStyle.get(pictureNode, "height") * coefReduc;
+						console.log(calculedHeight);
+						domStyle.set(pictureNode, "width",this.maxwidth+"px");
+						domStyle.set(pictureNode, "height",calculedHeight+"px");
+					}
+				}
+				
+				if(!isMaxHeight && !isMaxWidth)
+				{
+					if(isHeigher)
+					{
+						domStyle.set(pictureNode, "height",this.maxheight+"px");
+						domStyle.set(pictureNode, "width",'');
+					}else
+					{
+						domStyle.set(pictureNode, "width",this.maxwidth+"px");
+						domStyle.set(pictureNode, "height",'');
+						
+						// Calcul de la hauteur possible manuellement.
+						if(domStyle.get(pictureNode, "width")> this.maxwidth)
+						{
+							var pixDelta = domStyle.get(pictureNode, "width") - this.maxwidth;
+							console.log(pixDelta);
+							var coefReduc = (100 - ((pixDelta * 100) / this.maxwidth)) / 100;
+							console.log(coefReduc);
+
+							var calculedHeight = domStyle.get(pictureNode, "height") * coefReduc;
+							console.log(calculedHeight);
+							domStyle.set(pictureNode, "width",this.maxwidth+"px");
+							domStyle.set(pictureNode, "height",calculedHeight+"px");
+						}
+					}
+				}
+
 			},
 	
 			_initFist:function(nomRubrique){
 				this.mainPictureNode.src = this.listImage[0].url;
+				this._setDynamicSize(this.mainPictureNode);
 				this.titleNode.innerHTML = nomRubrique;
 			},
 	
