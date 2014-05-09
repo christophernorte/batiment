@@ -61,6 +61,8 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				on(this.sendCommButton,"click", lang.hitch(this,"_sendCommClick"));
 				
+				on(this.mainPictureNode,"load", lang.hitch(this,"_resizePicture"));
+				
 				on(this.mainPictureNode,mouse.enter, lang.hitch(this,"_displayButtonHover"));
 				on(this.mainPictureNode,mouse.leave, lang.hitch(this,"_displayButtonLeave"));
 				
@@ -69,6 +71,46 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				on(this.previousNode,mouse.leave, lang.hitch(this,"_mouseLeavePagineButton"));
 				on(this.nextNode,mouse.enter, lang.hitch(this,"_mouseEnterPagineButton"));
 				on(this.nextNode,mouse.leave, lang.hitch(this,"_mouseLeavePagineButton"));
+				
+			},
+			
+			_resizePicture:function()
+			{
+				var isHeigher = this.mainPictureNode.naturalHeight >= this.mainPictureNode.naturalWidth;
+				var isMaxHeight = this.mainPictureNode.naturalHeight > this.maxheight;
+				var isMaxWidth = this.mainPictureNode.naturalWidth > this.maxwidth;
+				
+				if(!isMaxHeight && !isMaxWidth)
+				{
+					domStyle.set(this.mainPictureNode, "height",'');
+					domStyle.set(this.mainPictureNode, "width",'');
+					return;
+				}
+				
+				if(isMaxWidth)
+				{
+					domStyle.set(this.mainPictureNode, "width",this.maxwidth+"px");
+					domStyle.set(this.mainPictureNode, "height",'');
+				}
+				
+				if(isMaxHeight)
+				{
+					domStyle.set(this.mainPictureNode, "height",this.maxheight+"px");
+					domStyle.set(this.mainPictureNode, "width",'');
+					
+					// Calcul de la hauteur possible manuellement.
+					if(domStyle.get(this.mainPictureNode, "width")> this.maxwidth)
+					{
+						var pixDelta = domStyle.get(this.mainPictureNode, "width") - this.maxwidth;
+						var coefReduc = (100 - ((pixDelta * 100) / this.maxwidth)) / 100;
+						var calculedHeight = domStyle.get(this.mainPictureNode, "height") * coefReduc;
+						
+						domStyle.set(this.mainPictureNode, "width",this.maxwidth+"px");
+						domStyle.set(this.mainPictureNode, "height",calculedHeight+"px");
+					}
+				}
+				
+				
 				
 			},
 			
@@ -264,8 +306,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 					return;
 				
 				this.currentPos++;
-				this.mainPictureNode.src = this.listImage[this.currentPos].url
-				this._setDynamicSize(this.mainPictureNode);
+				this.mainPictureNode.src = this.listImage[this.currentPos].url;
 				
 				// Déplace le slider si l'image n'est pas visible
 				var leftSize = this._countWidthSize(this.currentPos);
@@ -288,7 +329,6 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				// Déplace le slider si l'image n'est pas visible
 				var leftSize = this._countWidthSize(this.currentPos);
-				this._setDynamicSize(this.mainPictureNode);
 				
 				if(leftSize < (this.widthSumLimit - this.widthSlider))
 				{
@@ -302,75 +342,10 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				this.currentPos = index;
 				this.mainPictureNode.src = this.listImage[this.currentPos].url
 				
-				// Applique une contrainte dynamique sur la taille du conteneur en fonction de l'image.
-				this._setDynamicSize(this.mainPictureNode)
-				
 			},
 			
-			_setDynamicSize:function(pictureNode)
-			{
-				var isHeigher = pictureNode.naturalHeight >= pictureNode.naturalWidth;
-				var isMaxHeight = pictureNode.naturalHeight > this.maxheight;
-				var isMaxWidth = pictureNode.naturalWidth > this.maxwidth;
-			
-				if(isMaxWidth)
-				{
-					domStyle.set(pictureNode, "width",this.maxwidth+"px");
-					domStyle.set(pictureNode, "height",'');
-				}
-				
-				if(isMaxHeight)
-				{
-					domStyle.set(pictureNode, "height",this.maxheight+"px");
-					domStyle.set(pictureNode, "width",'');
-					
-					// Calcul de la hauteur possible manuellement.
-					if(domStyle.get(pictureNode, "width")> this.maxwidth)
-					{
-						var pixDelta = domStyle.get(pictureNode, "width") - this.maxwidth;
-						console.log(pixDelta);
-						var coefReduc = (100 - ((pixDelta * 100) / this.maxwidth)) / 100;
-						console.log(coefReduc);
-						
-						var calculedHeight = domStyle.get(pictureNode, "height") * coefReduc;
-						console.log(calculedHeight);
-						domStyle.set(pictureNode, "width",this.maxwidth+"px");
-						domStyle.set(pictureNode, "height",calculedHeight+"px");
-					}
-				}
-				
-				if(!isMaxHeight && !isMaxWidth)
-				{
-					if(isHeigher)
-					{
-						domStyle.set(pictureNode, "height",this.maxheight+"px");
-						domStyle.set(pictureNode, "width",'');
-					}else
-					{
-						domStyle.set(pictureNode, "width",this.maxwidth+"px");
-						domStyle.set(pictureNode, "height",'');
-						
-						// Calcul de la hauteur possible manuellement.
-						if(domStyle.get(pictureNode, "width")> this.maxwidth)
-						{
-							var pixDelta = domStyle.get(pictureNode, "width") - this.maxwidth;
-							console.log(pixDelta);
-							var coefReduc = (100 - ((pixDelta * 100) / this.maxwidth)) / 100;
-							console.log(coefReduc);
-
-							var calculedHeight = domStyle.get(pictureNode, "height") * coefReduc;
-							console.log(calculedHeight);
-							domStyle.set(pictureNode, "width",this.maxwidth+"px");
-							domStyle.set(pictureNode, "height",calculedHeight+"px");
-						}
-					}
-				}
-
-			},
-	
 			_initFist:function(nomRubrique){
 				this.mainPictureNode.src = this.listImage[0].url;
-				this._setDynamicSize(this.mainPictureNode);
 				this.titleNode.innerHTML = nomRubrique;
 			},
 	
