@@ -1,5 +1,5 @@
 FROM php:5.6-apache
-COPY config/php.ini /usr/local/etc/php/
+COPY docker/config/php.ini /usr/local/etc/php/
 RUN mkdir -p /var/log/web/batiment
 RUN chmod 777 /var/log/web/batiment
 
