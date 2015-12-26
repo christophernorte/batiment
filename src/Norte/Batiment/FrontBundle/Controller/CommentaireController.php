@@ -26,8 +26,8 @@ class CommentaireController extends Controller {
 	public function indexAction($idPhoto) {
 		$em = $this->getDoctrine()->getManager();
 		
-		$query = $em->createQuery("SELECT c FROM NorteBatimentCoreBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche=1");
-		$query->setParameter('idphoto',$idPhoto);
+		$query = $em->createQuery("SELECT c FROM NorteBatimentCoreBundle:Commentaire c WHERE c.idPhoto = :idPhoto AND c.isaffiche=1");
+		$query->setParameter('idPhoto',$idPhoto);
 		$entities = $query->getResult();
 
 		return array('entities' => $entities,'sizeList' => count($entities));

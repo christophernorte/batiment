@@ -134,4 +134,8 @@ class Rubrique
 	{
 		return $this->nom;
 	}
+	
+	public function toJson() {
+		return array('nom' => $this->nom, 'commentaire' => $this->commentaire, 'id' => $this->id);
+	}
 }

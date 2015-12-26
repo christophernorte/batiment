@@ -269,4 +269,12 @@ class Photo
 	{
 		unlink($this->getWebRootDir() . $this->url);
 	}
+	
+	public function toJson() {
+		return array('id' => $this->id, 'url' => $this->url, 'commentaire' => $this->commentaire, 'isaffiche' => $this->isaffiche, 'createdAt' => $this->createdAt, 'updatedAt' => $this->updatedAt, 'sliderSize' => 0);
+	}
+	
+	public function __toString() {
+		return (string) $this->id;
+	}
 }
