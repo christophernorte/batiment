@@ -49,19 +49,19 @@ class PresentationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('NorteBatimentCoreBundle:Presentation')->find(0);
+        $listPresentation = $em->getRepository('NorteBatimentCoreBundle:Presentation')->findAll();
 	
-	// Hack : Force à n'éditer que le premier élément de la table
-	$entity->setId(0);
+	$presentation = new Presentation();
 	
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Presentation entity.');
-        }
+	if(is_array($listPresentation))
+	{
+		$presentation = array_pop($listPresentation);
+	}
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($presentation);
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $presentation,
             'edit_form'   => $editForm->createView()
         );
     }
