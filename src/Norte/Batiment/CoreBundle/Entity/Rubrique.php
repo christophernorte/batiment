@@ -38,7 +38,7 @@ class Rubrique {
 	/**
 	 * @var string $adresse
 	 *
-	 * @ORM\Column(name="adresse", type="string", length=200, nullable=false)
+	 * @ORM\Column(name="adresse", type="string", length=200, nullable=true)
 	 */
 	private $adresse;
 
@@ -55,6 +55,12 @@ class Rubrique {
 	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
 	 */
 	private $updatedAt;
+	
+	function __construct()
+	{
+		$this->updatedAt = new \DateTime();
+		$this->createdAt = new \DateTime();
+	}
 
 	public function getId() {
 		return $this->id;

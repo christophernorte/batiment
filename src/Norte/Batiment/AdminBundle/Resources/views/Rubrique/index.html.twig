@@ -15,7 +15,13 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('secured_rubrique_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
-                <td>{{ entity.adresse }}</td>
+                <td>
+			{% if entity.adresse == null %}
+				non renseignée
+			{% else %}
+				{{ entity.adresse }}
+			{% endif %}
+		</td>
                 <td>
                 <ul>
                     <li>
