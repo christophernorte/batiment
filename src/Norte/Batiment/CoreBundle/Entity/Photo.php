@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Norte\Batiment\CoreBundle\Entity\Rubrique;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Photo
  *
@@ -79,6 +80,7 @@ class Photo
 	       $this->createdAt = new \DateTime();
 	       $this->updatedAt = new \DateTime();
 	       $this->isaffiche = true;
+	       $this->userCommentaire = new ArrayCollection();
        }
 
        

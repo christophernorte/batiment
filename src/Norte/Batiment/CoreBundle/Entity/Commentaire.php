@@ -3,6 +3,7 @@
 namespace Norte\Batiment\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Norte\Batiment\CoreBundle\Entity\Photo;
 /**
  * Commentaire
  *
@@ -38,14 +39,14 @@ class Commentaire
      */
     private $isaffiche = false;
     /**
-     * @var \Photo
+     * @var Photo
      *
-     * @ORM\ManyToOne(targetEntity="Photo", inversedBy="userCommentaire")
+     * @ORM\ManyToOne(targetEntity="Photo")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPhoto", referencedColumnName="id")
      * })
      */
-    private $idphoto;
+    private $idPhoto;
     /**
      * Set isaffiche
      *
@@ -81,7 +82,7 @@ class Commentaire
      * @param \norte\adminBatimentBundle\Entity\Photo $idphoto
      * @return Commentaire
      */
-    public function setIdphoto(\norte\adminBatimentBundle\Entity\Photo $idphoto = null)
+    public function setIdphoto(Photo $idphoto = null)
     {
         $this->idphoto = $idphoto;
         return $this;

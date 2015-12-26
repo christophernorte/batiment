@@ -3,119 +3,135 @@
 namespace Norte\Batiment\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 /**
- * Norte\Batiment\CoreBundle\Entity\Rubrique
+ * Rubrique
  *
  * @ORM\Table(name="Rubrique")
  * @ORM\Entity
  */
-class Rubrique {
-
+class Rubrique
+{
 	/**
-	 * @var integer $id
+	 * @var integer
 	 *
 	 * @ORM\Column(name="id", type="integer", nullable=false)
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 */
 	private $id;
-
 	/**
-	 * @var string $nom
+	 * @var string
 	 *
-	 * @ORM\Column(name="nom", type="string", length=100, nullable=true)
+	 * @ORM\Column(name="nom", type="string", length=100, nullable=false)
 	 */
 	private $nom;
-
 	/**
-	 * @var text $commentaire
+	 * @var string
 	 *
 	 * @ORM\Column(name="commentaire", type="text", nullable=true)
 	 */
 	private $commentaire;
-
 	/**
-	 * @var string $adresse
+	 * @var string
 	 *
 	 * @ORM\Column(name="adresse", type="string", length=200, nullable=true)
 	 */
 	private $adresse;
-
 	/**
-	 * @var datetime $createdAt
+	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
 	 */
 	private $createdAt;
-
 	/**
-	 * @var datetime $updatedAt
+	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
 	 */
 	private $updatedAt;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Norte\Batiment\CoreBundle\Entity\Photo", mappedBy="idrubrique")
+	 */
+	private $photos;
 	
 	function __construct()
 	{
 		$this->updatedAt = new \DateTime();
 		$this->createdAt = new \DateTime();
 	}
-
-	public function getId() {
+	
+	public function getId()
+	{
 		return $this->id;
 	}
-
-	public function setId($id) {
-		$this->id = $id;
-	}
-
-	public function getNom() {
+	
+	public function getNom()
+	{
 		return $this->nom;
 	}
-
-	public function setNom($nom) {
-		$this->nom = $nom;
+	
+	public function getUserCommentaire()
+	{
+		return $this->userCommentaire;
 	}
-
-	public function getCommentaire() {
+	public function setUserCommentaire($userCommentaire)
+	{
+		$this->userCommentaire = $userCommentaire;
+	}
+	public function getCommentaire()
+	{
 		return $this->commentaire;
 	}
-
-	public function setCommentaire($commentaire) {
-		$this->commentaire = $commentaire;
-	}
-
-	public function getAdresse() {
+	public function getAdresse()
+	{
 		return $this->adresse;
 	}
-
-	public function setAdresse($adresse) {
-		$this->adresse = $adresse;
-	}
-
-	public function getCreatedAt() {
+	public function getCreatedAt()
+	{
 		return $this->createdAt;
 	}
-
-	public function setCreatedAt($createdAt) {
-		$this->createdAt = $createdAt;
-	}
-
-	public function getUpdatedAt() {
+	public function getUpdatedAt()
+	{
 		return $this->updatedAt;
 	}
-
-	public function setUpdatedAt($updatedAt) {
+	public function setId($id)
+	{
+		$this->id = $id;
+	}
+	public function setNom($nom)
+	{
+		$this->nom = $nom;
+	}
+	public function setCommentaire($commentaire)
+	{
+		$this->commentaire = $commentaire;
+	}
+	public function setAdresse($adresse)
+	{
+		$this->adresse = $adresse;
+	}
+	public function setCreatedAt(\DateTime $createdAt)
+	{
+		$this->createdAt = $createdAt;
+	}
+	public function setUpdatedAt(\DateTime $updatedAt)
+	{
 		$this->updatedAt = $updatedAt;
 	}
-
-	public function toJson() {
-		return array('nom' => $this->nom, 'commentaire' => $this->commentaire, 'id' => $this->id);
+	
+	function getPhotos()
+	{
+		return $this->photos;
 	}
 
-	public function __toString() {
+	function setPhotos($photos)
+	{
+		$this->photos = $photos;
+	}
+
+	public function __toString()
+	{
 		return $this->nom;
 	}
-
 }
