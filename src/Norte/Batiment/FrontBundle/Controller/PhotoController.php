@@ -66,6 +66,7 @@ class PhotoController extends Controller {
 		return $this->render('NorteBatimentFrontBundle:Photo:default.json.twig', array('defautPhotos' => $photos, 'sizeList' => count($photos)), $response);
 	}
 	
+	
 	/**
 	 * Liste des photos pour une rubrique.
 	 *
