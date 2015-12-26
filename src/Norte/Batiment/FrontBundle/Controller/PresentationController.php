@@ -26,10 +26,9 @@ class PresentationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('NorteBatimentCoreBundle:Presentation')->find(0);
-        return array('entity' => $entity);
-        
-        
+        $listPresentation = $em->getRepository('NorteBatimentCoreBundle:Presentation')->findAll();
+	$presentation = array_pop($listPresentation);
+        return array('entity' => $presentation);
     }
 
 }

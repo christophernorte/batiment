@@ -9,9 +9,10 @@
                 Bienvenue
             </h2>
             <div class="art-postContent" id="txtPres">
-            {{ entity.textacceuil }}
+	    {% if entity != null %}
+		{{ entity.textacceuil }}
+	    {% endif %}
             </div>
-
             <div class="cleared"></div>
         </div>
     </div>
