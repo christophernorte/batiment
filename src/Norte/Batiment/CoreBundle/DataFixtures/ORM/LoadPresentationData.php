@@ -2,7 +2,8 @@
 
 namespace Norte\Batiment\CoreBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Norte\Batiment\CoreBundle\Entity\Presentation;
 
@@ -11,7 +12,7 @@ use Norte\Batiment\CoreBundle\Entity\Presentation;
  *
  * @author christopher
  */
-class LoadPresentationData implements FixtureInterface
+class LoadPresentationData extends AbstractFixture implements OrderedFixtureInterface
 {
 	public function load(ObjectManager $manager)
 	{
@@ -23,5 +24,9 @@ class LoadPresentationData implements FixtureInterface
 		$manager->flush($presentation);
 	}
 
+	public function getOrder()
+	{
+		return 1;
+	}
 
 }

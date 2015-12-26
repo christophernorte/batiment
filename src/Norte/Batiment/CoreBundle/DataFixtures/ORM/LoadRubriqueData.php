@@ -2,7 +2,8 @@
 
 namespace Norte\Batiment\CoreBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Norte\Batiment\CoreBundle\Entity\Rubrique;
 
@@ -11,7 +12,7 @@ use Norte\Batiment\CoreBundle\Entity\Rubrique;
  *
  * @author christopher
  */
-class LoadRubriqueData implements FixtureInterface
+class LoadRubriqueData extends AbstractFixture implements OrderedFixtureInterface
 {
 	public function load(ObjectManager $manager)
 	{
@@ -37,6 +38,17 @@ class LoadRubriqueData implements FixtureInterface
 		
 		$manager->flush();
 		
+		$this->addReference('chantier1', $chantier1);
+		$this->addReference('chantier2', $chantier2);
+		$this->addReference('chantier3', $chantier3);
+		$this->addReference('chantier4', $chantier4);
+		$this->addReference('chantier5', $chantier5);
+		
+	}
+
+	public function getOrder()
+	{
+		return 3;
 	}
 
 }

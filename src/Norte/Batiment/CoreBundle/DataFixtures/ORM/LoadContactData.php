@@ -2,7 +2,8 @@
 
 namespace Norte\Batiment\CoreBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Norte\Batiment\CoreBundle\Entity\Contact;
 
@@ -11,7 +12,7 @@ use Norte\Batiment\CoreBundle\Entity\Contact;
  *
  * @author christopher
  */
-class LoadContactData implements FixtureInterface
+class LoadContactData extends AbstractFixture implements OrderedFixtureInterface
 {
 	public function load(ObjectManager $manager)
 	{
@@ -28,5 +29,9 @@ class LoadContactData implements FixtureInterface
 		$manager->flush();
 	}
 
+	public function getOrder()
+	{
+		return 2;
+	}
 
 }
