@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\adminBatimentBundle\Controller;
+namespace Norte\Batiment\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;

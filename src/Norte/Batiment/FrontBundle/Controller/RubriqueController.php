@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\Controller;
+namespace Norte\Batiment\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,7 +40,7 @@ class RubriqueController extends Controller {
         $response = new Response();
         $response->headers->set('Content-type', 'application/json; charset=utf-8');
 
-        return $this->render('batimentBundle:Rubrique:index.json.twig',array('entities'=> $entities,'sizeList'=> count($entities)), $response);
+        return $this->render('NorteBatimentFrontBundle:Rubrique:index.json.twig',array('entities'=> $entities,'sizeList'=> count($entities)), $response);
     }
 
 }

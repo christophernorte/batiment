@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\adminBatimentBundle\Controller;
+namespace Norte\Batiment\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Norte\Batiment\CoreBundle\Beans\Entity\Presentation;
-use norte\adminBatimentBundle\Form\PresentationType;
+use Norte\Batiment\AdminBundle\Form\PresentationType;
 
 /**
  * Presentation controller.

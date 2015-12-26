@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\Controller;
+namespace Norte\Batiment\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,9 +26,7 @@ class CommentaireController extends Controller {
 	public function indexAction($idPhoto) {
 		$em = $this->getDoctrine()->getManager();
 		
-		$entities = $em->getRepository('CoreBundle:Commentaire')->findAll();
-		
-		$query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche=1");
+		$query = $em->createQuery("SELECT c FROM NorteBatimentCoreBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche=1");
 		$query->setParameter('idphoto',$idPhoto);
 		$entities = $query->getResult();
 
@@ -55,7 +53,7 @@ class CommentaireController extends Controller {
 		$commentaire->setText($request->get('text'));
 		$commentaire->setIsaffiche(false);
 		
-		$photo = $this->getDoctrine()->getRepository('batimentBundle:Photo')->find($request->get('idphoto'));
+		$photo = $this->getDoctrine()->getRepository('NorteBatimentCoreBundle:Photo')->find($request->get('idphoto'));
 		$commentaire->setIdphoto($photo);
 		
 		$form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
@@ -74,7 +72,7 @@ class CommentaireController extends Controller {
 		$response = new Response();
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 
-		return $this->render('batimentBundle:Commentaire:new.json.twig', array('rep' => $form->isValid() ? 'true' : 'false'), $response);
+		return $this->render('NorteBatimentFrontBundle:Commentaire:new.json.twig', array('rep' => $form->isValid() ? 'true' : 'false'), $response);
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\Controller;
+namespace Norte\Batiment\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

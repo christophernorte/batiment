@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\Controller;
+namespace Norte\Batiment\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -30,7 +30,7 @@ class PhotoController extends Controller {
 		$response = new Response();
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 
-		return $this->render('batimentBundle:Photo:index.json.twig', array('entities' => $entities, 'sizeList' => count($entities)), $response);
+		return $this->render('NorteBatimentFrontBundle:Photo:index.json.twig', array('entities' => $entities, 'sizeList' => count($entities)), $response);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class PhotoController extends Controller {
 		$response = new Response();
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 
-		return $this->render('batimentBundle:Photo:default.json.twig', array('defautPhotos' => $photos, 'sizeList' => count($photos)), $response);
+		return $this->render('NorteBatimentFrontBundle:Photo:default.json.twig', array('defautPhotos' => $photos, 'sizeList' => count($photos)), $response);
 	}
 	
 	/**
@@ -83,7 +83,7 @@ class PhotoController extends Controller {
 		$response = new Response();
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 
-		return $this->render('batimentBundle:Photo:default.json.twig', array('defautPhotos' => $photos, 'sizeList' => count($photos)), $response);
+		return $this->render('NorteBatimentFrontBundle:Photo:default.json.twig', array('defautPhotos' => $photos, 'sizeList' => count($photos)), $response);
 	}
 
 	/**

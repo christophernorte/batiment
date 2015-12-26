@@ -1,11 +1,10 @@
 default:
     pattern:  /
-    defaults: { _controller: batimentBundle:Presentation:index }
+    defaults: { _controller: NorteBatimentFrontBundle:Presentation:index }
 batiment:
-    resource: "@batimentBundle/Controller/"
+    resource: "@NorteBatimentFrontBundle/Controller/"
     type:     annotation
-    
 adminBatimentBundle:
-    resource: "@adminBatimentBundle/Controller/"
+    resource: "@NorteBatimentAdminBundle/Controller/"
     type:     annotation
     
