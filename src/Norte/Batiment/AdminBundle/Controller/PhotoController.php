@@ -15,7 +15,7 @@ use Norte\Batiment\CoreBundle\Entity\Rubrique;
 /**
  * Photo controller.
  *
- * @Route("/secured/photo")
+ * @Route("/photo")
  */
 class PhotoController extends Controller
 {

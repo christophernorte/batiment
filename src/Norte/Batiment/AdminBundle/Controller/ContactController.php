@@ -13,7 +13,7 @@ use Norte\Batiment\AdminBundle\Form\ContactType;
 /**
  * Contact controller.
  *
- * @Route("/secured/contact")
+ * @Route("/contact")
  */
 class ContactController extends Controller
 {

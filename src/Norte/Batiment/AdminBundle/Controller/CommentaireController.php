@@ -13,7 +13,7 @@ use Norte\Batiment\AdminBundle\Form\CommentaireType;
 /**
  * Commentaire controller.
  *
- * @Route("/secured/commentaire")
+ * @Route("/commentaire")
  */
 class CommentaireController extends Controller
 {

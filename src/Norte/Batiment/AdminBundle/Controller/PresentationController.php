@@ -13,7 +13,7 @@ use Norte\Batiment\AdminBundle\Form\PresentationType;
 /**
  * Presentation controller.
  *
- * @Route("/secured/presentation")
+ * @Route("/presentation")
  */
 class PresentationController extends Controller
 {

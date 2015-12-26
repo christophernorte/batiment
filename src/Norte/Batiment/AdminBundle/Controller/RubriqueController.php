@@ -13,7 +13,7 @@ use Norte\Batiment\AdminBundle\Form\RubriqueType;
 /**
  * Rubrique controller.
  *
- * @Route("/secured/rubrique")
+ * @Route("/rubrique")
  */
 class RubriqueController extends Controller
 {

@@ -7,4 +7,5 @@ batiment:
 adminBatimentBundle:
     resource: "@NorteBatimentAdminBundle/Controller/"
     type:     annotation
+    prefix:   /secured
     
