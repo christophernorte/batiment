@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\adminBatimentBundle\Form;
+namespace Norte\Batiment\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +17,7 @@ class RubriqueFilterType extends AbstractType
     {
         $builder
             ->add('nom','entity',array(
-		'class' => 'adminBatimentBundle:Rubrique',
+		'class' => 'NorteBatimentCoreBundle:Rubrique',
 		'query_builder' => function(EntityRepository $er) {
 			return $er->createQueryBuilder('r');
 		}
@@ -30,7 +30,7 @@ class RubriqueFilterType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Rubrique'
+            'data_class' => 'Norte\Batiment\CoreBundle\Entity\Rubrique'
         ));
     }
 

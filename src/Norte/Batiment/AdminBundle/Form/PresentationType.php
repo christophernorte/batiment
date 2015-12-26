@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\adminBatimentBundle\Form;
+namespace Norte\Batiment\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,7 @@ class PresentationType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Presentation'
+            'data_class' => 'Norte\Batiment\CoreBundle\Entity\Presentation'
         ));
     }
 

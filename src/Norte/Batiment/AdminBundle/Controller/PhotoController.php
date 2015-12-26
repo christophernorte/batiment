@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Norte\Batiment\CoreBundle\Beans\Entity\Photo;
 use Norte\Batiment\AdminBundle\Form\PhotoType;
 use Norte\Batiment\AdminBundle\Form\RubriqueFilterType;
-use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Entity\Rubrique;
 
 /**
  * Photo controller.
@@ -31,7 +31,7 @@ class PhotoController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('adminBatimentBundle:Photo')->findAll();
+		$entities = $em->getRepository('NorteBatimentCoreBundle:Photo')->findAll();
 
 		$formRubrique = $this->createRubriqueFilterForm(new Rubrique());
 
@@ -59,12 +59,12 @@ class PhotoController extends Controller
 		{
 			$selectedRubrique = $formRubrique['nom']->getData();
 			$em = $this->getDoctrine()->getManager();
-			$photos = $em->getRepository('adminBatimentBundle:Photo')->findBy(array('idrubrique' => $selectedRubrique));
+			$photos = $em->getRepository('NorteBatimentCoreBundle:Photo')->findBy(array('idrubrique' => $selectedRubrique));
 		}
 
 
 
-		return $this->render('adminBatimentBundle:Photo:index.html.twig', array(
+		return $this->render('NorteBatimentAdminBundle:Photo:index.html.twig', array(
 			    'entities' => $photos,
 			    'formRubriques' => $formRubrique->createView()
 		));
@@ -177,7 +177,7 @@ class PhotoController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Photo')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Photo')->find($id);
 
 		if (!$entity)
 		{
@@ -203,7 +203,7 @@ class PhotoController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Photo')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Photo')->find($id);
 
 		if (!$entity)
 		{
@@ -250,7 +250,7 @@ class PhotoController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Photo')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Photo')->find($id);
 
 		if (!$entity)
 		{
@@ -294,7 +294,7 @@ class PhotoController extends Controller
 		if ($form->isValid())
 		{
 			$em = $this->getDoctrine()->getManager();
-			$entity = $em->getRepository('adminBatimentBundle:Photo')->find($id);
+			$entity = $em->getRepository('NorteBatimentCoreBundle:Photo')->find($id);
 
 			$entity->removeFile();
 

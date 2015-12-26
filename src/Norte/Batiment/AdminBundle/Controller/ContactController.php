@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Norte\Batiment\CoreBundle\Beans\Entity\Contact;
+use Norte\Batiment\CoreBundle\Entity\Contact;
 use Norte\Batiment\AdminBundle\Form\ContactType;
 
 /**
@@ -29,7 +29,7 @@ class ContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('adminBatimentBundle:Contact')->findAll();
+        $entities = $em->getRepository('NorteBatimentCoreBundle:Contact')->findAll();
 
         return array(
             'entities' => $entities,
@@ -110,7 +110,7 @@ class ContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('adminBatimentBundle:Contact')->find($id);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Contact')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Contact entity.');
@@ -135,7 +135,7 @@ class ContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 	
-        $entity = $em->getRepository('adminBatimentBundle:Contact')->find($id);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Contact')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Contact entity.');
@@ -180,7 +180,7 @@ class ContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('adminBatimentBundle:Contact')->find($id);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Contact')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Contact entity.');
@@ -215,7 +215,7 @@ class ContactController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('adminBatimentBundle:Contact')->find($id);
+            $entity = $em->getRepository('NorteBatimentCoreBundle:Contact')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Contact entity.');

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Norte\Batiment\CoreBundle\Beans\Entity\Presentation;
+use Norte\Batiment\CoreBundle\Entity\Presentation;
 use Norte\Batiment\AdminBundle\Form\PresentationType;
 
 /**
@@ -49,7 +49,7 @@ class PresentationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('adminBatimentBundle:Presentation')->find(0);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Presentation')->find(0);
 	
 	// Hack : Force à n'éditer que le premier élément de la table
 	$entity->setId(0);
@@ -97,7 +97,7 @@ class PresentationController extends Controller
 	    
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('adminBatimentBundle:Presentation')->find((int)$id);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Presentation')->find((int)$id);
 	
 	$entity->setId($id);
 	

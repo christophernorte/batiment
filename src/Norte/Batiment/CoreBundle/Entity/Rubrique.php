@@ -109,7 +109,7 @@ class Rubrique {
 	}
 
 	public function __toString() {
-		return __CLASS__;
+		return $this->nom;
 	}
 
 }

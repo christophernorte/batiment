@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Entity\Rubrique;
 use Norte\Batiment\AdminBundle\Form\RubriqueType;
 
 /**
@@ -29,7 +29,7 @@ class RubriqueController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('adminBatimentBundle:Rubrique')->findAll();
+		$entities = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->findAll();
 
 		return array(
 		    'entities' => $entities,
@@ -118,7 +118,7 @@ class RubriqueController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->find($id);
 
 		if (!$entity)
 		{
@@ -144,7 +144,7 @@ class RubriqueController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->find($id);
 
 		if (!$entity)
 		{
@@ -191,7 +191,7 @@ class RubriqueController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->find($id);
 
 		if (!$entity)
 		{
@@ -234,7 +234,7 @@ class RubriqueController extends Controller
 		if ($form->isValid())
 		{
 			$em = $this->getDoctrine()->getManager();
-			$entity = $em->getRepository('adminBatimentBundle:Rubrique')->find($id);
+			$entity = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->find($id);
 
 			if (!$entity)
 			{
