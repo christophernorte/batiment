@@ -30,7 +30,7 @@ class RubriqueFilterType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'norte\adminBatimentBundle\Entity\Rubrique'
+            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Rubrique'
         ));
     }
 

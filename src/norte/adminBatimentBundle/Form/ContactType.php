@@ -26,7 +26,7 @@ class ContactType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'norte\adminBatimentBundle\Entity\Contact'
+            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Contact'
         ));
     }
 

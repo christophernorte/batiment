@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use norte\batimentBundle\Entity\Presentation;
+use Norte\Batiment\CoreBundle\Beans\Entity\Presentation;
 
 /**
  * Presentation controller.
@@ -24,11 +24,9 @@ class PresentationController extends Controller
      */
     public function indexAction()
     {
-//        echo $this->generateUrl('_demo');
-        
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('batimentBundle:Presentation')->find(0);
+        $entity = $em->getRepository('NorteBatimentCoreBundle:Presentation')->find(0);
         return array('entity' => $entity);
         
         

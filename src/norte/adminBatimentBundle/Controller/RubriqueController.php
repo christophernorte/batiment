@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use norte\adminBatimentBundle\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
 use norte\adminBatimentBundle\Form\RubriqueType;
 
 /**

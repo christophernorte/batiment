@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use norte\batimentBundle\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
 
 /**
  * Rubrique controller.
@@ -36,7 +36,7 @@ class RubriqueController extends Controller {
     public function rubriquesAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('batimentBundle:Rubrique')->findAll();
+        $entities = $em->getRepository('NorteBatimentCoreBundle:Rubrique')->findAll();
         $response = new Response();
         $response->headers->set('Content-type', 'application/json; charset=utf-8');
 

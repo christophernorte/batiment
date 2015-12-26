@@ -7,10 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use norte\adminBatimentBundle\Entity\Photo;
+use Norte\Batiment\CoreBundle\Beans\Entity\Photo;
 use norte\adminBatimentBundle\Form\PhotoType;
 use norte\adminBatimentBundle\Form\RubriqueFilterType;
-use \norte\batimentBundle\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
 
 /**
  * Photo controller.

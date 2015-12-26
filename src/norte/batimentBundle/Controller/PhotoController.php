@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use norte\batimentBundle\Entity\Photo;
+use Norte\Batiment\CoreBundle\Entity\Photo;
 
 /**
  * Photo controller.
@@ -26,7 +26,7 @@ class PhotoController extends Controller {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('batimentBundle:Photo')->findAll();
+		$entities = $em->getRepository('NorteBatimentCoreBundle:Photo')->findAll();
 		$response = new Response();
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 
@@ -43,17 +43,21 @@ class PhotoController extends Controller {
 	public function defautPhotoAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$query = $em->createQuery("SELECT p FROM batimentBundle:Photo p WHERE p.idrubrique IS NULL");
+		$query = $em->createQuery("SELECT p FROM NorteBatimentCoreBundle:Photo p WHERE p.idrubrique IS NULL");
 		$photos = $query->getResult();
 
 		if (count($photos) <= 0) {
 			
-			$query = $em->createQuery("SELECT r FROM batimentBundle:Rubrique r")->setMaxResults(1);
+			$query = $em->createQuery("SELECT r FROM NorteBatimentCoreBundle:Rubrique r")->setMaxResults(1);
 			$firstRubrique = $query->getResult();
 
-			$query = $em->createQuery("SELECT p FROM batimentBundle:Photo p WHERE p.idrubrique = :idFirstRubrique");
-			$query->setParameter('idFirstRubrique',$firstRubrique[0]->getId());
-			$photos = $query->getResult();
+			if(count($firstRubrique) > 0)
+			{
+				$query = $em->createQuery("SELECT p FROM NorteBatimentCoreBundle:Photo p WHERE p.idrubrique = :idFirstRubrique");
+				$query->setParameter('idFirstRubrique',$firstRubrique[0]->getId());
+				$photos = $query->getResult();	
+			}
+			
 		}
 
 		$response = new Response();
@@ -72,7 +76,7 @@ class PhotoController extends Controller {
 	public function rubriquePhotoAction($idRubrique) {
 		$em = $this->getDoctrine()->getManager();
 
-		$query = $em->createQuery("SELECT p FROM batimentBundle:Photo p WHERE p.idrubrique = :idRubrique");
+		$query = $em->createQuery("SELECT p FROM NorteBatimentCoreBundle:Photo p WHERE p.idrubrique = :idRubrique");
 		$query->setParameter('idRubrique',(int) $idRubrique);
 		$photos = $query->getResult();
 
@@ -91,7 +95,7 @@ class PhotoController extends Controller {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('batimentBundle:Photo')->find($id);
+		$entity = $em->getRepository('NorteBatimentCoreBundle:Photo')->find($id);
 
 		if (!$entity) {
 			throw $this->createNotFoundException('Unable to find Photo entity.');

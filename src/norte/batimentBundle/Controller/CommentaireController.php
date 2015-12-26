@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use norte\batimentBundle\Entity\Commentaire;
+use Norte\Batiment\CoreBundle\Beans\Entity\Commentaire;
 use norte\batimentBundle\Form\CommentaireType;
 
 /**
@@ -26,7 +26,7 @@ class CommentaireController extends Controller {
 	public function indexAction($idPhoto) {
 		$em = $this->getDoctrine()->getManager();
 		
-		$entities = $em->getRepository('batimentBundle:Commentaire')->findAll();
+		$entities = $em->getRepository('CoreBundle:Commentaire')->findAll();
 		
 		$query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche=1");
 		$query->setParameter('idphoto',$idPhoto);

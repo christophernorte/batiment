@@ -27,7 +27,7 @@ class PresentationType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'norte\adminBatimentBundle\Entity\Presentation'
+            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Presentation'
         ));
     }
 

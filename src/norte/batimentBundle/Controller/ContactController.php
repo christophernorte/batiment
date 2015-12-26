@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use norte\batimentBundle\Entity\Contact;
+use Norte\Batiment\CoreBundle\Beans\Entity\Contact;
 
 /**
  * Contact controller.
@@ -25,7 +25,7 @@ class ContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('batimentBundle:Contact')->findAll();
+        $entities = $em->getRepository('NorteBatimentCoreBundle:Contact')->findAll();
 
         return array('entities' => $entities);
     }
