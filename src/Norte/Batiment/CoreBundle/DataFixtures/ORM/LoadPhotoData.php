@@ -16,7 +16,16 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface
 {
 	public function load(ObjectManager $manager)
 	{
+		$basePath = "bundles/batiment/images/photo/";
 		
+		//darksiders-2
+		$photoDarksider2 = new Photo();
+		$photoDarksider2->setUrl($basePath."darksiders-2.jpg");
+		$photoDarksider2->setIsaffiche(true);
+		$photoDarksider2->setIdrubrique($this->getReference("chantier1"));
+		$manager->persist($photoDarksider2);
+		
+		$manager->flush();
 	}
 
 	public function getOrder()
