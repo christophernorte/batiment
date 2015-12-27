@@ -89,12 +89,12 @@ class Commentaire
 	/**
 	 * Set idphoto
 	 *
-	 * @param \norte\adminBatimentBundle\Entity\Photo $idphoto
+	 * @param Norte\Batiment\CoreBundle\Entity\Photo $idphoto
 	 * @return Commentaire
 	 */
 	public function setIdphoto(Photo $idphoto = null)
 	{
-		$this->idphoto = $idphoto;
+		$this->idPhoto = $idphoto;
 		return $this;
 	}
 
@@ -105,7 +105,7 @@ class Commentaire
 	 */
 	public function getIdphoto()
 	{
-		return $this->idphoto;
+		return $this->idPhoto;
 	}
 
 	public function getText()

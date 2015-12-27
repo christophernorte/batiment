@@ -49,17 +49,9 @@ class CommentaireController extends Controller {
 	{
 		
 		$commentaire = new Commentaire();
-		
-
-		
-		$photo = $this->getDoctrine()->getRepository('NorteBatimentCoreBundle:Photo')->find($request->get('idphoto'));
-        $photo->setUpdatedAt(new \DateTime());
-        $commentaire->setIdphoto($photo);
-
         $form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
 
 		$form->handleRequest($request);
-
 		
 		if ($form->isValid()) 
 		{
@@ -67,6 +59,10 @@ class CommentaireController extends Controller {
 			$commentaire->setDate(new \DateTime());
             $commentaire->setText($request->get('text'));
             $commentaire->setIsaffiche(false);
+
+            $photo = $this->getDoctrine()->getRepository('NorteBatimentCoreBundle:Photo')->find($request->get('idphoto'));
+            $photo->setUpdatedAt(new \DateTime());
+            $commentaire->setIdphoto($photo);
 
 			$em->persist($commentaire);
 			$em->flush();
