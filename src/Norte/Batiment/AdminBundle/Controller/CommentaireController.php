@@ -29,15 +29,15 @@ class CommentaireController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto");
-	$query->setParameter('idphoto',$idPhoto);
-	$entities = $query->getResult();
+        $query = $em->createQuery("SELECT c FROM NorteBatimentAdminBundle:Commentaire c WHERE c.idphoto = :idphoto");
+        $query->setParameter('idphoto', $idPhoto);
+        $entities = $query->getResult();
 
         return array(
             'entities' => $entities,
         );
     }
-    
+
     /**
      * Lists all Commentaire entities.
      *
@@ -49,13 +49,13 @@ class CommentaireController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->createQuery("SELECT c FROM batimentBundle:Commentaire c WHERE c.idphoto = :idphoto AND c.isaffiche = 0");
-	$query->setParameter('idphoto',$idPhoto);
-	$entities = $query->getResult();
+        $query = $em->createQuery("SELECT c FROM NorteBatimentCoreBundle:Commentaire c WHERE c.idPhoto = :idPhoto AND c.isaffiche = 0");
+        $query->setParameter('idPhoto', $idPhoto);
+        $entities = $query->getResult();
 
-        return $this->render('adminBatimentBundle:Commentaire:index.html.twig', array( 'entities' => $entities));
+        return $this->render('NorteBatimentAdminBundle:Commentaire:index.html.twig', array('entities' => $entities));
     }
-    
+
     /**
      * Lists all Commentaire entities.
      *
@@ -63,17 +63,18 @@ class CommentaireController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexValidatedAction($idCommentaire,$idPhoto)
+    public function indexValidatedAction(Request $request,$idCommentaire, $idPhoto)
     {
         $em = $this->getDoctrine()->getManager();
-	$commentaire = $em->getRepository('adminBatimentBundle:Commentaire')->find($idCommentaire);
-	
-	$commentaire->setIsaffiche(!$commentaire->getIsaffiche());
-	
-	$em->flush();
-	
-	return $this->redirect($this->getRequest()->headers->get('referer'));
+        $commentaire = $em->getRepository('NorteBatimentCoreBundle:Commentaire')->find($idCommentaire);
+
+        $commentaire->setIsaffiche(!$commentaire->getIsaffiche());
+
+        $em->flush();
+
+        return $this->redirect($request->headers->get('referer'));
     }
+
     /**
      * Creates a new Commentaire entity.
      *
@@ -97,17 +98,17 @@ class CommentaireController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
     /**
-    * Creates a form to create a Commentaire entity.
-    *
-    * @param Commentaire $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to create a Commentaire entity.
+     *
+     * @param Commentaire $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createCreateForm(Commentaire $entity)
     {
         $form = $this->createForm(new CommentaireType(), $entity, array(
@@ -130,11 +131,11 @@ class CommentaireController extends Controller
     public function newAction()
     {
         $entity = new Commentaire();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -158,7 +159,7 @@ class CommentaireController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -184,19 +185,19 @@ class CommentaireController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Commentaire entity.
-    *
-    * @param Commentaire $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Commentaire entity.
+     *
+     * @param Commentaire $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Commentaire $entity)
     {
         $form = $this->createForm(new CommentaireType(), $entity, array(
@@ -208,6 +209,7 @@ class CommentaireController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Commentaire entity.
      *
@@ -236,11 +238,12 @@ class CommentaireController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Commentaire entity.
      *
@@ -280,7 +283,6 @@ class CommentaireController extends Controller
             ->setAction($this->generateUrl('secured_commentaire_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 }
