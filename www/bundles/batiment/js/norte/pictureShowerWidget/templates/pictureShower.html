@@ -6,9 +6,9 @@
 			</ul>
 		</div>
 	</aside>
-	<aside class="col">
+	<aside class="col containerPictureWidget-middle">
 		<section class="row">
-			<div id="title"><span id="title-text" data-dojo-attach-point="titleNode" >Title</span></div>
+			<div id="title"><span id="title-text" data-dojo-attach-point="titleNode" class="containerPictureWidget-middle-title" >Title</span></div>
 		</section>
 		<section class="row" style="min-height: 380px;display: block;">
 			<div id="previous" data-dojo-attach-point="previousNode" ><span style="margin-top: 10px;display: block"><</span></div>
@@ -17,7 +17,7 @@
 		</section>
 		<section class="row">
 			
-			<div id="bottomNavigator" data-dojo-attach-point="sliderNode">
+			<div id="bottomNavigator" data-dojo-attach-point="sliderNode" class="containerPictureWidget-middle-slider">
 				<div id="sliderPrevious" data-dojo-attach-point="leftButtonNode" ><</div>
 				<table  data-dojo-attach-point="tableSliderNode" style="height: 100px;position: absolute;left:160px;">
 					<tr data-dojo-attach-point="sliderTrNode" >
@@ -34,12 +34,14 @@
 
 		</div>
 		<div id="commentaire-panel-bottom">
-			<div>Commentaires</div>
 			<form  data-dojo-attach-point="commentaireForm" id="commentaireForm">
-				<input data-dojo-attach-point="textCommentaire" id="textCommentaire" type="text" name="text" maxlength="120" />
+				<input data-dojo-attach-point="textCommentaire" id="textCommentaire" type="text" name="text" maxlength="120" placeholder="Commentaire" />
 				<input type="hidden" data-dojo-attach-point="idphoto" name="idphoto" />
 				<input type="hidden" name="norte_batimentbundle_commentaire" />
-				<input data-dojo-attach-point="sendCommButton" type="button" value="Envoyer" />
+				<!--<input data-dojo-attach-point="sendCommButton" type="button" value="Envoyer" />-->
+				<section class="flat">
+					<button data-dojo-attach-point="sendCommButton" type="button">Envoyer</button>
+				</section>
 			</form>
 			<div data-dojo-attach-point="sendStatus" style="height: 10px;"></div>
 		</div>

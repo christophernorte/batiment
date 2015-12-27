@@ -71,9 +71,18 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				on(this.previousNode,mouse.leave, lang.hitch(this,"_mouseLeavePagineButton"));
 				on(this.nextNode,mouse.enter, lang.hitch(this,"_mouseEnterPagineButton"));
 				on(this.nextNode,mouse.leave, lang.hitch(this,"_mouseLeavePagineButton"));
-				
-			},
-			
+
+                on(this.textCommentaire,"click", lang.hitch(this,"_activePlaceHolder"));
+                this._inactivePlaceHolder();
+
+			},_inactivePlaceHolder:function(){
+                dojo.setAttr(this.textCommentaire, "value", this.textCommentaire.placeholder);
+                domStyle.set(this.textCommentaire,"color","grey");
+            },_activePlaceHolder:function(){
+                dojo.setAttr(this.textCommentaire, "value", "");
+                domStyle.set(this.textCommentaire,"color","black");
+            }
+            ,
 			_resizePicture:function()
 			{
 				var isHeigher = this.mainPictureNode.naturalHeight >= this.mainPictureNode.naturalWidth;
@@ -244,6 +253,8 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 					})
 					
 				});
+
+                this._inactivePlaceHolder();
 				
 			},
 			_leftSliderClick:function()
