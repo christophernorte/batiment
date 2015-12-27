@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\DependencyInjection;
+namespace Norte\Batiment\FrontBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

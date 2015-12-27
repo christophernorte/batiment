@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use Norte\Batiment\CoreBundle\Beans\Entity\Rubrique;
+use Norte\Batiment\CoreBundle\Entity\Rubrique;
 
 /**
  * Rubrique controller.

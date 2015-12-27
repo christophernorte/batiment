@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\DependencyInjection;
+namespace Norte\Batiment\FrontBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

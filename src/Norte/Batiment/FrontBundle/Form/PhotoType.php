@@ -1,6 +1,6 @@
 <?php
 
-namespace norte\batimentBundle\Form;
+namespace Norte\Batiment\FrontBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,8 +18,8 @@ class PhotoType extends AbstractType
             ->add('url','text')
             ->add('commentaire','text')
             ->add('isaffiche','checkbox')
-            ->add('createdAt','date')
-            ->add('updatedAt','date')
+            //->add('createdAt','date')
+           // ->add('updatedAt','date')
         ;
     }
     
@@ -29,7 +29,7 @@ class PhotoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Norte\Batiment\CoreBundle\Beans\Entity\Photo'
+            'data_class' => 'Norte\Batiment\CoreBundle\Entity\Photo'
         ));
     }
 

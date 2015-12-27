@@ -7,8 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use Norte\Batiment\CoreBundle\Beans\Entity\Commentaire;
-use norte\batimentBundle\Form\CommentaireType;
+use Symfony\Component\HttpFoundation\Request;
+use Norte\Batiment\CoreBundle\Entity\Commentaire;
+use Norte\Batiment\FrontBundle\Form\CommentaireType;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Commentaire controller.
@@ -43,28 +45,29 @@ class CommentaireController extends Controller {
 	 * @Method("POST")
 	 * @Template("batimentBundle:Commentaire:new.json.twig")
 	 */
-	public function createAction()
+	public function createAction(Request $request)
 	{
-		
-		$request = $this->getRequest();
 		
 		$commentaire = new Commentaire();
 		
-		$commentaire->setText($request->get('text'));
-		$commentaire->setIsaffiche(false);
+
 		
 		$photo = $this->getDoctrine()->getRepository('NorteBatimentCoreBundle:Photo')->find($request->get('idphoto'));
-		$commentaire->setIdphoto($photo);
-		
-		$form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
+        $photo->setUpdatedAt(new \DateTime());
+        $commentaire->setIdphoto($photo);
+
+        $form = $this->createForm(new CommentaireType(), $commentaire,array('csrf_protection' => false));
+
 		$form->handleRequest($request);
+
 		
 		if ($form->isValid()) 
 		{
-			
 			$em = $this->getDoctrine()->getManager();
-			$commentaire->setDate();
-			$commentaire->setText($request->get('text'));
+			$commentaire->setDate(new \DateTime());
+            $commentaire->setText($request->get('text'));
+            $commentaire->setIsaffiche(false);
+
 			$em->persist($commentaire);
 			$em->flush();
 		}
