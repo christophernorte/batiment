@@ -17,24 +17,20 @@ class LoadRubriqueData extends AbstractFixture implements OrderedFixtureInterfac
 	public function load(ObjectManager $manager)
 	{
 		$chantier1 = new Rubrique();
-		$chantier1->setNom("chantier1");
+		$chantier1->setNom("Darksider");
 		$manager->persist($chantier1);
 		
 		$chantier2 = new Rubrique();
-		$chantier2->setNom("chantier2");
+		$chantier2->setNom("Diablo");
 		$manager->persist($chantier2);
 		
 		$chantier3 = new Rubrique();
-		$chantier3->setNom("chantier3");
+		$chantier3->setNom("Borderland");
 		$manager->persist($chantier3);
 		
 		$chantier4 = new Rubrique();
-		$chantier4->setNom("chantier4");
+		$chantier4->setNom("Alfa Romeo");
 		$manager->persist($chantier4);
-		
-		$chantier5 = new Rubrique();
-		$chantier5->setNom("chantier5");
-		$manager->persist($chantier5);
 		
 		$manager->flush();
 		
@@ -42,7 +38,6 @@ class LoadRubriqueData extends AbstractFixture implements OrderedFixtureInterfac
 		$this->addReference('chantier2', $chantier2);
 		$this->addReference('chantier3', $chantier3);
 		$this->addReference('chantier4', $chantier4);
-		$this->addReference('chantier5', $chantier5);
 		
 	}
 
