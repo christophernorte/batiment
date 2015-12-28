@@ -201,6 +201,8 @@ class Photo
         // le nom de fichier cible où le fichier doit être déplacé
         $status = $this->image->move($this->getUploadRootDir(), $this->image->getClientOriginalName());
 
+        //Fixme : Controler que le nom de fichier ne soit pas déjà présent. Passer le stockage des fichier avec un nom industriel.
+
         $this->logger->info('Picture path : ' . $status->getPath());
         // définit la propriété « path » comme étant le nom de fichier où vous
         // avez stocké le fichier
@@ -211,24 +213,27 @@ class Photo
         $urlWorkingFile = $this->getUploadDir() . $this->image->getClientOriginalName();
         $ext = pathinfo($urlWorkingFile, PATHINFO_EXTENSION);
 
+        // Todo : Rendre comfigurable la compression des images.
+        $quality = 5;
         $im = null;
+
         switch ($ext) {
             case 'png':
 
                 $im = imagecreatefrompng($urlWorkingFile);
-                imagepng($im, $urlWorkingFile, 7);
+                imagepng($im, $urlWorkingFile, $quality);
                 break;
             case 'jpg':
                 $tabDir = scandir('.');
                 var_dump($tabDir);
                 $im = imagecreatefromjpeg('./' . $urlWorkingFile);
-                imagejpeg($im, $urlWorkingFile, 7);
+                imagejpeg($im, $urlWorkingFile, $quality);
 
                 break;
             case 'gif':
 
                 $im = imagecreatefromgif($urlWorkingFile);
-                imagegif($im, $urlWorkingFile, 7);
+                imagegif($im, $urlWorkingFile, $quality);
                 break;
             default:
                 $this->logger->error('Extention not recognize : ' . $ext);
@@ -255,22 +260,27 @@ class Photo
         return file_exists($this->getWebRootDir() . $this->url);
     }
 
+    /**
+     * @return string Le chemin racine du répertoire où les documents uploadés doivent être sauvegardés
+     */
     protected function getWebRootDir()
     {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__ . '/../../../../www/';
+        return __DIR__ . '/../../../../../www/';
     }
 
+    /**
+     * @return string Le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+     */
     protected function getUploadRootDir()
     {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return $this->getWebRootDir() . $this->getUploadDir();
     }
 
+    /**
+     * @return string Le chemin relatif des images de la galerie
+     */
     protected function getUploadDir()
     {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
         return 'bundles/batiment/images/photo/';
     }
 
