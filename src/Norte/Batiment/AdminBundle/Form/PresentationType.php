@@ -15,10 +15,21 @@ class PresentationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('textacceuil','textarea',array('attr' => array('rows' => '15','cols' => '80'),
-						 'constraints' => new NotBlank()
-						));
+        $builder->add('textacceuil', 'ckeditor', array(
+            'config' => array(
+                'toolbar' => array(
+                    array(
+                        'name'  => 'document',
+                        'items' => array('Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'),
+                    ),
+                    '/',
+                    array(
+                        'name'  => 'basicstyles',
+                        'items' => array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
+                    ),
+                )
+            ),
+        ));
     }
     
     /**
