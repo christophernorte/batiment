@@ -1494,3 +1494,49 @@ img.image
 
 .grayColor, .tab-coord-libelle
 {color: #7A7E7F}
+
+/*
+Page contact
+*/
+
+.page-contact{
+    width: 100%;
+    padding:10px 0;
+}
+
+.page-contact #map{
+    width: 100% !important;
+    height: 400px !important;
+}
+
+.page-contact .page-contact-information{
+    position: absolute;
+    bottom: 76px;
+
+    z-index: 1;
+    width: 300px;
+    text-align: left;
+    margin:5px;
+
+
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.page-contact .page-contact-information .page-contact-information-element{
+    vertical-align: middle;
+}
+
+.page-contact .page-contact-information .page-contact-information-element-left{
+    width: 55px;
+}
+
+.page-contact .page-contact-information .page-contact-information-image{
+    width: 55px;
+    height: 55px;
+    display: block;
+    border: 0;
+}
