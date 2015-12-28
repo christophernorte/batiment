@@ -10,7 +10,7 @@
             </h2>
             <div class="art-postContent" id="txtPres">
 	    {% if entity != null %}
-		{{ entity.textacceuil }}
+		{{ entity.textacceuil | raw }}
 	    {% endif %}
             </div>
             <div class="cleared"></div>
