@@ -1,0 +1,7 @@
+/app/config/parameters.yml
+/vendor/
+/app/cache/
+/app/logs/
+composer.lock
+/www/bundles/ivoryckeditor
+.idea
