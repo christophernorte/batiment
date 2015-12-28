@@ -9,6 +9,8 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			listCommentaire: "",
 	
 			listRubrique:"",
+
+            listRubriqueLink:[],
 			
 			currentIdRubrique:0,
 	    
@@ -40,7 +42,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			mouseBackgroundColor: "#def",
 			
 			root: "",
-            
+
 			postCreate: function(){
 				// Get a DOM node reference for the root of our widget
 				var domNode = this.domNode;
@@ -51,7 +53,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				//Iniatlisation de la somme contextuelle maximal pour le slider
 				this.widthSumLimit = this.widthSlider;
 				
-				// Pause les evenements sur les boutons de navigation.
+				// Pose les evenements sur les boutons de navigation.
 				
 				on(this.nextNode,"click",lang.hitch(this, "_getNextCounter"));
 				on(this.previousNode,"click", lang.hitch(this, "_getPreviousCounter"));
@@ -82,6 +84,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
                 dojo.setAttr(this.textCommentaire, "value", "");
                 domStyle.set(this.textCommentaire,"color","black");
             }
+
             ,
 			_resizePicture:function()
 			{
@@ -373,6 +376,10 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 					title:rubrique.nom
 				},liNode);
 
+                this.listRubriqueLink.push(a);
+                on(a,"click", lang.hitch(this,"_cleanUpRubriqueLink"));
+                on(a,"click", this._activeRubriqueLink);
+
 				var event = {
 					url: this.root+"photo/rubrique-photo/"+rubrique.id,
 					handleAs: "json",
@@ -397,7 +404,16 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				domConstruct.place(liNode,this.rubriqueNode);
 			},
-			
+            _activeRubriqueLink:function(){
+                dojo.setAttr(this, "class", "active");
+            },
+            _cleanUpRubriqueLink:function(){
+                console.log(this.listRubriqueLink);
+
+                dojo.forEach(this.listRubriqueLink, function(item, i){
+                    dojo.setAttr(item, "class", "");
+                });
+            },
 			_displayCommentaire:function(idImage)
 			{
 				xhr.get({
