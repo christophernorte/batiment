@@ -78,10 +78,10 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
                 this._inactivePlaceHolder();
 
 			},_inactivePlaceHolder:function(){
-                dojo.setAttr(this.textCommentaire, "value", this.textCommentaire.placeholder);
+                domattr.set(this.textCommentaire, "value", this.textCommentaire.placeholder);
                 domStyle.set(this.textCommentaire,"color","grey");
             },_activePlaceHolder:function(){
-                dojo.setAttr(this.textCommentaire, "value", "");
+                domattr.set(this.textCommentaire, "value", "");
                 domStyle.set(this.textCommentaire,"color","black");
             }
 
@@ -198,7 +198,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				this.idphoto.value = this.listImage[this.currentPos].id;
 				
 				// Gestion de la validation
-				if(dojo.getAttr(this.textCommentaire, "value") == "")
+				if(domattr.get(this.textCommentaire, "value") == "")
 				{
 					baseFx.animateProperty(
 						{
@@ -232,14 +232,14 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 						if(formStatus.formOk)
 						{
 							html.set(this.sendStatus,"Commentaire envoyé et soumis à validation.");
-							dojo.setAttr(this.textCommentaire, "value", "");
+							domattr.set(this.textCommentaire, "value", "");
 							setTimeout(lang.hitch(this,function(){
 								baseFx.fadeOut(
 									{ 
 										duration: 700,
 										node: this.sendStatus,
 										onEnd:lang.hitch(this,function(){
-											dojo.setAttr(this.sendStatus, "value", "");
+											domattr.set(this.sendStatus, "value", "");
 										})
 									}
 								).play();
@@ -405,13 +405,13 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				domConstruct.place(liNode,this.rubriqueNode);
 			},
             _activeRubriqueLink:function(){
-                dojo.setAttr(this, "class", "active");
+                domattr.set(this, "class", "active");
             },
             _cleanUpRubriqueLink:function(){
                 console.log(this.listRubriqueLink);
 
                 dojo.forEach(this.listRubriqueLink, function(item, i){
-                    dojo.setAttr(item, "class", "");
+                    domattr.set(item, "class", "");
                 });
             },
 			_displayCommentaire:function(idImage)

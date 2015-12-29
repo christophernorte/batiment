@@ -18,6 +18,10 @@
     "tests"
   ],
   "dependencies": {
-    "KNACSS": "knacss#~4.4.2"
+    "KNACSS": "knacss#~4.4.2",
+    "dojo": "dojo/dojo#~1.10.4",
+    "dijit": "dojo/dijit#~1.10.4",
+    "dojox": "dojo/dojox#~1.10.4",
+    "util": "dojo/util#~1.10.4"
   }
 }

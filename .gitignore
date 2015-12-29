@@ -5,3 +5,4 @@
 composer.lock
 /www/bundles/ivoryckeditor
 .idea
+/www/bundles/batiment/js/dojo-lib
