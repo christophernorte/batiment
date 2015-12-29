@@ -8,27 +8,25 @@
 		</div>
 	</div>
 
-	<div class="flex-item-fluid containerPictureWidget-middle col">
+	<div class="flex-item-fluid containerPictureWidget-middle">
 
         <div class="flex-container-v">
-            <div>
+            <div lass="containerPictureWidget-middle-title-container">
                 <div id="title"><span id="title-text" data-dojo-attach-point="titleNode" class="containerPictureWidget-middle-title" >Title</span></div>
             </div>
 
-            <div>
-                <div id="previous" data-dojo-attach-point="previousNode" ><</div>
+            <div class="containerPictureWidget-middle-navigator-container">
+                <div id="previous" data-dojo-attach-point="previousNode" class="circle" ><</div>
                 <img class="center" id="pictureStaring" src="${url}" data-dojo-attach-point="mainPictureNode"  />
                 <div id="next" data-dojo-attach-point="nextNode" >></div>
             </div>
 
-            <div>
-                <div id="bottomNavigator" data-dojo-attach-point="sliderNode" class="containerPictureWidget-middle-slider">
+            <div class="containerPictureWidget-middle-slider-container">
+                <div id="bottomNavigator" data-dojo-attach-point="sliderNode" class="containerPictureWidget-middle-slider w600p fl">
                     <div id="sliderPrevious" data-dojo-attach-point="leftButtonNode" ><</div>
-                    <table  data-dojo-attach-point="tableSliderNode" style="height: 100px;position: absolute;left:160px;">
-                        <tr data-dojo-attach-point="sliderTrNode" >
+                    <div  data-dojo-attach-point="tableSliderNode" class="flex-container fl" style="position:absolute;width: 10000px" >
 
-                        </tr>
-                    </table>
+                    </div>
                     <div id="sliderNext" data-dojo-attach-point="rightButtonNode" >></div>
                 </div>
             </div>

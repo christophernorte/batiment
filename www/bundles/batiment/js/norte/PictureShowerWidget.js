@@ -77,7 +77,11 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
                 on(this.textCommentaire,"click", lang.hitch(this,"_activePlaceHolder"));
                 this._inactivePlaceHolder();
 
-			},_inactivePlaceHolder:function(){
+			},
+			startup: function(){
+				console.log("startup");
+			}
+			,_inactivePlaceHolder:function(){
                 domattr.set(this.textCommentaire, "value", this.textCommentaire.placeholder);
                 domStyle.set(this.textCommentaire,"color","grey");
             },_activePlaceHolder:function(){
@@ -292,6 +296,10 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				var width = domStyle.get(this.tableSliderNode, "width");
 				var left = domStyle.get(this.tableSliderNode, "left");
 
+				console.log(width);
+				console.log(left);
+				console.log(this.widthSlider);
+
 				if(width + left < this.widthSlider)
 					return;
 
@@ -408,8 +416,6 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
                 domattr.set(this, "class", "active");
             },
             _cleanUpRubriqueLink:function(){
-                console.log(this.listRubriqueLink);
-
                 dojo.forEach(this.listRubriqueLink, function(item, i){
                     domattr.set(item, "class", "");
                 });
@@ -447,7 +453,7 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 			},
 			
 			_printPhotoSlider:function(){
-				this.sliderTrNode.innerHTML = "";
+				this.tableSliderNode.innerHTML = "";
 				
 				//pos par defaut
 				domStyle.set(this.tableSliderNode, "width",this.widthSlider);
@@ -455,18 +461,22 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 				
 				this.listImage.forEach(lang.hitch(this,function(image){
 					
-					var td = domConstruct.create("td",{
+					var div = domConstruct.create("div",{
 						className:"slideImage"
 					});
 					
 					var a = domConstruct.create("a", {
 						rel:this.listImage.indexOf(image)
-					},td);
+					},div);
 					
 					var img = domConstruct.create("img",{
 						src:image.url
 					},a);
-					
+
+
+
+
+
 					on(a,"click", lang.hitch(this,function(evt){
 						var indexCurrentImageClicked = evt.target.parentNode.rel;
 						this._setCurrentMainImage(parseInt(indexCurrentImageClicked));
@@ -475,10 +485,21 @@ define(["dojo/_base/declare","dijit/_WidgetBase", "dijit/_TemplatedMixin","dojo/
 						this._displayCommentaire(image.id);
 					}));
 					
-					domConstruct.place(td,this.sliderTrNode);
+					domConstruct.place(div,this.tableSliderNode);
 					
 					// Affectation de la taille des images dans le slider (sert à déplacer automatiquement le slider)
 					var width = domStyle.get(img, "width");
+
+
+					var imgWidth = domStyle.get(img, "width");
+					var sliderMovingPartWidth = domStyle.get(this.tableSliderNode, "width");
+					var sliderGrowthWidth = sliderMovingPartWidth + imgWidth;
+
+					console.log(width);
+					domStyle.set(this.tableSliderNode, {
+						width: sliderGrowthWidth
+					});
+
 					image.sliderSize = width;
 				}));
 				

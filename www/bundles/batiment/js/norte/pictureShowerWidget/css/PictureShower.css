@@ -86,61 +86,58 @@ section.flat button.active {
     font-size: 20px;
 }
 
+#containerPictureWidget .containerPictureWidget-middle .containerPictureWidget-middle-navigator-container{
+    position:relative;
+}
+
 #next, #previous {
     position: absolute;
-    width: 50px;
-    height: 100px;
     cursor: pointer;
     color: white;
     font-size: 50px;
-    opacity: 0.7;
     font-family: cursive;
     font-weight: 800;
-    top: 50%;
-    opacity: 0;
-    display: inline;
+    top: 35%;
+    background-color: black;
+    padding: 10px;
 }
 
 #next {
-    right: 211px;
-    background-image: url(../images/pagineButton-right.png);
+    right: 0;
     text-align: right;
 }
 
 #previous {
-    left: 163px;
-    background-image: url(../images/pagineButton-left.png);
+    left: 0;
 }
 
 #sliderNext, #sliderPrevious {
-
     position: absolute;
-    width: 50px;
-    height: 30px;
     font-weight: 800;
     font-size: 20px;
-    top: 35%;
     z-index: 1;
     cursor: pointer;
     color: white;
+    background-color: black;
+    padding: 35px 5px 0 5px;
+    height: 100%;
 }
 
 #sliderNext {
     right: 0px;
-    background-image: url(../images/pagineButton-right.png);
     text-align: right;
 }
 
 #sliderPrevious {
-    background-image: url(../images/pagineButton-left.png);
+
 }
 
 #bottomNavigator {
     height: 100px;
-    width: 650px;
+
     margin-top: 2px;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     background-color: black;
 }
 
