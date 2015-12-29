@@ -1,38 +1,47 @@
-<section id="containerPictureWidget" class="row">
-	<aside class="col w15">
+<section id="containerPictureWidget" class="flex-container">
+
+	<div class="w200p">
 		<div id="rubrique" >
 			<ul id="ulId" data-dojo-attach-point="rubriqueNode">
 
 			</ul>
 		</div>
-	</aside>
-	<aside class="col containerPictureWidget-middle">
-		<section class="row">
-			<div id="title"><span id="title-text" data-dojo-attach-point="titleNode" class="containerPictureWidget-middle-title" >Title</span></div>
-		</section>
-		<section class="row" style="min-height: 380px;display: block;">
-			<div id="previous" data-dojo-attach-point="previousNode" ><span style="margin-top: 10px;display: block"><</span></div>
-			<img class="center" id="pictureStaring" src="${url}" data-dojo-attach-point="mainPictureNode"  />
-				<div id="next" data-dojo-attach-point="nextNode" ><span style="margin-top: 10px;display: block">></span></div>
-		</section>
-		<section class="row">
-			
-			<div id="bottomNavigator" data-dojo-attach-point="sliderNode" class="containerPictureWidget-middle-slider">
-				<div id="sliderPrevious" data-dojo-attach-point="leftButtonNode" ><</div>
-				<table  data-dojo-attach-point="tableSliderNode" style="height: 100px;position: absolute;left:160px;">
-					<tr data-dojo-attach-point="sliderTrNode" >
+	</div>
 
-					</tr>
-				</table>
-				<div id="sliderNext" data-dojo-attach-point="rightButtonNode" >></div>
-			</div>
-			
-		</section>
-	</aside>
-	<aside class="col w20">
+	<div class="flex-item-fluid containerPictureWidget-middle col">
+
+        <div class="flex-container-v">
+            <div>
+                <div id="title"><span id="title-text" data-dojo-attach-point="titleNode" class="containerPictureWidget-middle-title" >Title</span></div>
+            </div>
+
+            <div>
+                <div id="previous" data-dojo-attach-point="previousNode" ><</div>
+                <img class="center" id="pictureStaring" src="${url}" data-dojo-attach-point="mainPictureNode"  />
+                <div id="next" data-dojo-attach-point="nextNode" >></div>
+            </div>
+
+            <div>
+                <div id="bottomNavigator" data-dojo-attach-point="sliderNode" class="containerPictureWidget-middle-slider">
+                    <div id="sliderPrevious" data-dojo-attach-point="leftButtonNode" ><</div>
+                    <table  data-dojo-attach-point="tableSliderNode" style="height: 100px;position: absolute;left:160px;">
+                        <tr data-dojo-attach-point="sliderTrNode" >
+
+                        </tr>
+                    </table>
+                    <div id="sliderNext" data-dojo-attach-point="rightButtonNode" >></div>
+                </div>
+            </div>
+        </div>
+
+	</div>
+
+	<div class="w200p">
+
 		<div id="commentaire-panel-top" data-dojo-attach-point="panelCommentaireNode">
 
 		</div>
+
 		<div id="commentaire-panel-bottom">
 			<form  data-dojo-attach-point="commentaireForm" id="commentaireForm">
 				<input data-dojo-attach-point="textCommentaire" id="textCommentaire" type="text" name="text" maxlength="120" placeholder="Commentaire" />
@@ -45,5 +54,6 @@
 			</form>
 			<div data-dojo-attach-point="sendStatus" style="height: 10px;"></div>
 		</div>
-	</aside>
+
+	</div>
 </section>
