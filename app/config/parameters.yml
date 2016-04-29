@@ -4,7 +4,7 @@ parameters:
     database_host: batiment-mysql-container
     database_port: 3306
     database_name: batiment
-    database_user: root
+    database_user: batiment
     database_password: batiment
     mailer_transport: smtp
     mailer_host: 127.0.0.1
