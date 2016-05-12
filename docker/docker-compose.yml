@@ -4,7 +4,7 @@ batiment-apache-service:
   ports:
     - "80:80"
   volumes:
-    - ./log/httpd:/var/log/
+    - ./log/httpd:/var/log/apache2
     - ./../:/usr/local/apache2/htdocs
   links:
   - batiment-fpm-service:batiment-fpm-service
@@ -12,7 +12,8 @@ batiment-fpm-service:
   container_name: batiment-fpm-container
   build: image/php-fpm/
   volumes:
-    - ./log/:/var/log/
+    - ./log/php-fpm:/var/log/phpfpm
+    - ./../:/usr/local/apache2/htdocs
   links:
   - batiment-mysql-service:batiment-mysql-service
 batiment-mysql-service:
