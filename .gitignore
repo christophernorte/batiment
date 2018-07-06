@@ -4,5 +4,5 @@
 /app/logs/
 composer.lock
 /www/bundles/ivoryckeditor
-.idea
+.idea/*
 /www/bundles/batiment/js/dojo-lib
